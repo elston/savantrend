@@ -1,0 +1,33 @@
+{% load report_tags %}
+{% load staticfiles %}
+
+<div class="row rep">
+    <div class="table-responsive">
+{% if not report.is_dahsboard %}
+    <div class="non-printable">
+    <input type="checkbox" id="shkpi" />
+    <label for="shkpi">KPI Identification Number</label>
+{% endif %}
+        <div class="zoom pull-right non-printable">
+            <img src="{% static 'web/img/fscreen.png' %}" class="zoomin" />
+            <img src="{% static 'web/img/fxit.png' %}" class="zoomout hidden" /><!--<br />
+            <span class="zoomtext">fullscreen</span>-->
+        </div>
+        <br />
+    </div>
+        <table class="table table-bordered executive" id="table1"><tbody>
+<tr>
+{% for kpiname, kpi in report.kpi.items %}
+{% if kpi.enabled %}
+{% if not forloop.first and forloop.counter0|divisibleby:4 %}</tr><tr>{% endif %}
+<td class="odd {{ kpi.css }}"  data-ind="{{ forloop.counter }}"><br class="br1"/>{{ kpi.fullname }}<br/><span class="mval">{{ kpi.sum|formatkpi:kpi.format }}</span></td>
+{% endif %}
+{% endfor %}
+</tr>
+        </tbody></table>
+    </div>
+</div>
+
+{% if not report.is_dahsboard %}
+{% include 'reports/block_kpiabbrv.html' %}
+{% endif %}

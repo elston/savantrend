@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+{% load static %}
+
+{% block title %}Scheduler for user {{ userobject.get_short_name }} {% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{% static 'web/js/select2.min.js' %}"></script>
+{% block extrascript %}
+{% endblock %}
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "web/css/select2.min.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "web/css/main.css" %}" />
+{% block extracss %}
+{% endblock %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+<li><a href="/admin/web/">Web</a></li>
+<li><a href="/admin/web/user/">Clients</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+{% block body_block %}
+{% endblock %}
+{% endblock %}

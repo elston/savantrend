@@ -1,0 +1,47 @@
+{% extends 'reports/base_reports.html' %}
+
+{% block reportmenuitems %}
+{% block rmi_select_chain %}{{ block.super }}{% endblock %}
+{% block rmi_select_site %}{{ block.super }}{% endblock %}
+{% block rmi_select_date %}{{ block.super }}{% endblock %}
+{% block rmi_select_kpi %}{{ block.super }}{% endblock %}
+{% endblock %}
+
+{% block reportbtnoffset %}{% endblock %}
+{% block reportsubmitbtn %}
+<div class="col-md-2 col-xs-12">
+<input type="button" class="btn btn-block btn-warning" value="Current Realtime" id="btnRealtime" data-interval="0"/>
+</div>
+<div class="col-md-2 col-xs-12">
+<input type="button" class="btn btn-block btn-warning" value="Refresh" id="btnrefreshData" />
+</div>
+{{ block.super }}
+{% endblock %}
+
+{% block report %}
+<div class="reportdata hidden" data-name="{{ report_name }}" id="reportdata" data-url="{% url report_url %}" data-reportname="{{ report_id }}">
+
+</div>
+
+<div class="modal fade" id="mdlRefreshInterval" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Refresh Interval</h4>
+            </div>
+            <div class="modal-body">
+                <p>Please enter the refresh rate (refresh rate only in seconds)</p>
+                <div class="input-group">
+                    <input type="number" id="rInterval" class="form-control" value="0" />
+                    <span class="input-group-addon">Seconds</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success" id="refreshsave">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

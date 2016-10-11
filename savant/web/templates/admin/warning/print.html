@@ -1,0 +1,46 @@
+<!DOCTYPE html>  
+<html>
+    <title>View script</title>
+    <style>
+        .clear{clear:both;}
+        body{font-family: Arial, Tahoma, Verdana; font-size:15px;}
+        .content{margin:20px;width:400px;border:1px solid #000;padding:20px;}
+        .top{margin-bottom:20px;}
+        .top .username{float:right;margin-right:100px;font-weight:bold;}
+        .top .date{float:right;margin-right:30px;}
+        .center{text-align:center;}
+        .red{color:red;}
+        .bottom{margin:20px 0 20px 0;}
+        .bottom .print{float:right;margin-right:100px;}
+        .bottom .sendemail{float:right;margin-right:30px;}
+        a color{blue;}
+    </style>
+
+</html>
+
+<div class="content">
+
+    <div class="top">
+        <div class="date">{{ warning.dt_viewed|date:"Y-m-d" }}</div>
+        <div class="username">{{ warning.client.username }}</div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="center red">{{ warning.period.days }}-day warning message</div>
+
+    <p>
+        This script is to confirm that the client has viewed the {{ warning.period.days }} day(s)
+        warning message on {{warning.dt_viewed|date:"Y-m-d"}}.
+    </p>
+
+    <p>
+        Email has been sent to {% if warning.has_email %} {{warning.email}} and {% endif %} {{admin_email}}.
+    </p>
+    
+    <div class="bottom">
+        <div class="sendemail"><a href="#" onclick="alert('NOT READY YET');return false;">send as email</a></div>
+        <div class="print"><a href="#" onclick="window.print();">PRINT SCREEN</a></div>
+        <div class="clear"></div>
+    </div>
+
+</div>

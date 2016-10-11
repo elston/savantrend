@@ -1,0 +1,100 @@
+<script type="text/javascript">
+    // $(document).ready(function() {
+    //     $(".dropdown-toggle").dropdown();
+    // });
+
+    $('#id_chain').multiselect({
+        includeSelectAllOption: true,
+        onDropdownHide: function (event) {
+
+            $("#id_zone optgroup").remove();
+            $("#id_zone").multiselect( 'refresh' );
+            
+            $('#id_zone optgroup').remove();
+            $("#id_zone").multiselect('deselectAll', false);
+            $("#id_zone").multiselect( 'refresh' );
+            get_new();
+        }
+    });
+    $('#id_site').multiselect({
+        includeSelectAllOption: true,
+        onDropdownHide: function (event) {
+            $('#id_zone optgroup').remove();
+            get_new();
+        }
+    });
+    $('#id_zone').multiselect({
+        includeSelectAllOption: true,
+        onDropdownHide: function (event) {
+            get_new();
+        }
+    });
+    
+    $('#id_enabled_kpis').multiselect({
+        includeSelectAllOption: true,
+    });
+
+    $('#id_enabled_reports').multiselect({
+        includeSelectAllOption: true,
+    });
+</script>
+
+<script type="text/javascript">
+
+    function get_new() {
+        var inp_date = $('form').serialize();
+        $.post(
+                "{% url 'show_form' %}",
+                inp_date,
+                function (data) {
+                    $('.select2-hidden-accessible').hide();
+                    $('.select2-container').hide();
+                    $('.select2-selection__rendered').hide();
+                    $('.select2-results__options').hide();
+                    $("#profile_form").html(data);
+                    // return false;
+                    
+                    $('#id_chain').multiselect({
+                        includeSelectAllOption: true,
+                        onDropdownHide: function (event) {
+
+                            $("#id_site optgroup").remove();
+                            $("#id_site").multiselect( 'refresh' );
+
+                            $('#id_zone optgroup').remove();
+                            $("#id_zone").multiselect( 'refresh' );
+                            get_new();
+                        }
+                    });
+                    $('#id_site').multiselect({
+                        includeSelectAllOption: true,
+                        onDropdownHide: function (event) {
+                            $('#id_zone optgroup').remove();
+                            $("#id_zone").multiselect( 'refresh' );
+                            get_new();
+                        }
+                    });
+                    $('#id_zone').multiselect({
+                        includeSelectAllOption: true,
+                        onDropdownHide: function (event) {
+                            get_new();
+                        }
+                    });
+                    
+                    $('#id_enabled_kpis').multiselect({
+                        includeSelectAllOption: true,
+                    });
+                    $('#id_enabled_reports').multiselect({
+                        includeSelectAllOption: true,
+                    });
+                    /*$('select').multiselect({
+                        includeSelectAllOption: true,
+                        onDropdownHide: function (event) {
+                            get_new();
+                        }
+                    });*/
+                }
+        )
+    }
+
+</script>

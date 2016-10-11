@@ -1,0 +1,45 @@
+{% extends 'web/list.html' %}
+{% load booltags %}
+
+{% block listcontent %}
+
+<table class="table table-condensed table-hover text-center text-middle">
+<tr>
+    {% block table_headers %}
+    <th class="text-left"><div><span>&nbsp;</span></div></th>
+    <th data-sort='name' class="text-left sortable"><div><span>Name</span></div></th>
+    <th class="text-center"><div><span>Period</span></div></th>
+    <th data-sort="created_at" class="text-center sortable"><div><span>Start From</span></div></th>
+    <th data-sort="next_run_time" class="text-center sortable"><div><span>Next Run Time</span></div></th>
+    <th class="text-center"><div><span>Report Format Selected</span></div></th>
+    <th class="text-left"><div><span>&nbsp;</span></div></th>
+    {% endblock %}
+</tr>
+{% for i in items %}
+<tr data-id="{{ i.id }}" data-detailsurl="{% url 'scheduler_task_details' i.id %}{{otheruser}}">
+    {% block table_items %}
+    <td class="text-left">
+    {% if not is_admin_view %}
+    <button class="btn btn-default btn-block open-report" data-urlparams='{{ i.parameters }}'>Open Report</button>
+    {% else %}
+    &nbsp;
+    {% endif %}
+    </td>
+    <td class="text-left">{{ i.name }}</td>
+    <td class="text-center">{{ i.get_delivery_period_display }}</td>
+    <td class="text-center">{{ i.firstday|date:'m/d/Y' }}</td>
+    <td class="text-center">{{ i.next_run_time|date:'m/d/Y H:i' }}</td>
+    <td class="text-center">
+        {% if i.is_csv %}<span class="label label-primary">CSV</span>{% endif %}
+        {% if i.is_xls %}<span class="label label-primary">XLS</span>{% endif %}
+        {% if i.is_pdf %}<span class="label label-primary">PDF</span>{% endif %}
+    </td>
+    <td class="text-center">
+        <span class="schedit glyphicon glyphicon-pencil"></span>
+    </td>
+    {% endblock %}
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

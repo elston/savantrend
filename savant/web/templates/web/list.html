@@ -1,0 +1,61 @@
+
+{% block up_pagination %}
+<div class="pagination">
+    <span class="step-links">
+        <button class="btn btn-primary btn-sm listnav {% if not items.has_previous %}disabled{% endif %}" {% if items.has_previous %}data-page="{{ items.previous_page_number }}"{% endif %}><span class="glyphicon glyphicon-arrow-left"></span></button>
+
+            {% if items.number > 2 %}
+            <button class="btn btn-primary btn-sm listnav" data-page="1">1</button> ..
+            {% endif %}
+
+            {% if items.has_previous %}
+            <button class="btn btn-primary btn-sm listnav" data-page="{{ items.previous_page_number }}">{{ items.previous_page_number }}</button>
+            {% endif %}
+            <button class="btn btn-primary btn-sm active">{{ items.number }}</button>
+            {% if items.has_next %}
+            <button class="btn btn-primary btn-sm listnav" data-page="{{ items.next_page_number }}">{{ items.next_page_number }}</button>
+            {% endif %}
+
+            {% if items.number < prelast %}
+            .. <button class="btn btn-primary btn-sm listnav" data-page="{{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}</button>
+            {% endif %}
+        
+        <button class="btn btn-primary btn-sm listnav {% if not items.has_next %}disabled{% endif %}" {% if items.has_next %}data-page="{{ items.next_page_number }}"{% endif %}><span class="glyphicon glyphicon-arrow-right"></span></button>
+
+    </span> <span>Shown items {{ items.start_index }} - {{ items.end_index }} of {{ items.paginator.count }}</span>
+</div>
+
+{% endblock %}
+
+{% block listcontent %}
+
+{% endblock %}
+
+{% block bottom_pagination %}
+
+<div class="pagination">
+    <span class="step-links">
+        <button class="btn btn-primary btn-sm listnav {% if not items.has_previous %}disabled{% endif %}" {% if items.has_previous %}data-page="{{ items.previous_page_number }}"{% endif %}><span class="glyphicon glyphicon-arrow-left"></span></button>
+
+            {% if items.number > 2 %}
+            <button class="btn btn-primary btn-sm listnav" data-page="1">1</button> ..
+            {% endif %}
+
+            {% if items.has_previous %}
+            <button class="btn btn-primary btn-sm listnav" data-page="{{ items.previous_page_number }}">{{ items.previous_page_number }}</button>
+            {% endif %}
+            <button class="btn btn-primary btn-sm active">{{ items.number }}</button>
+            {% if items.has_next %}
+            <button class="btn btn-primary btn-sm listnav" data-page="{{ items.next_page_number }}">{{ items.next_page_number }}</button>
+            {% endif %}
+
+            {% if items.number < prelast %}
+            .. <button class="btn btn-primary btn-sm listnav" data-page="{{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}</button>
+            {% endif %}
+        
+        <button class="btn btn-primary btn-sm listnav {% if not items.has_next %}disabled{% endif %}" {% if items.has_next %}data-page="{{ items.next_page_number }}"{% endif %}><span class="glyphicon glyphicon-arrow-right"></span></button>
+
+    </span> <span>Shown items {{ items.start_index }} - {{ items.end_index }} of {{ items.paginator.count }}</span>
+</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+<div class="only-printable keeptogether">
+{% if current_time_report %}
+<div class="row xrow-middle">
+    <div class="col-md-12 col-xs-12 xcol-middle nowrap text-right pull-right">{{ current_time_report }}</div>
+</div>
+{% endif %}
+<div class="row xrow-middle">
+    <div class="col-md-2 col-xs-2 xcol-middle"><img src="{{ logo_file }}" class="printlogo img-responsive"></div>
+    <div class="col-md-1 col-xs-1 xcol-middle">&nbsp;</div>
+    <div class="col-md-9 col-xs-9 xcol-middle xtext-center">
+    <h2 xstyle="vertical-align: middle;" class="reportheader">{% if reportheader %}{{ reportheader }}{% else %}{{ report_name }} Report{% endif %}</h2>
+    </div>
+</div>
+</div>

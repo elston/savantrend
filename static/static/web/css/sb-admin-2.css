@@ -1,0 +1,303 @@
+/*!
+ * Start Bootstrap - SB Admin 2 Bootstrap Admin Theme (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+.huge {
+    font-size: 30px;
+}
+
+.huge1 {
+    font-size: 18px;
+}
+
+.huge112 {
+    font-size: 18px;
+    margin-left: -30px;
+}
+
+.huge11 {
+    font-size: 20px;
+    margin-left: -30px;
+}
+.huge111 {
+    font-size: 16px;
+    margin-left: -30px;
+}
+.huge12 {
+    font-size: 16px;
+    margin-left: -110px;
+}
+
+.panel-green {
+    border-color: #5cb85c;
+}
+
+.panel-green .panel-heading {
+    border-color: #5cb85c;
+    color: #fff;
+    background-color: #5cb85c;
+}
+
+.panel-green a {
+    color: #5cb85c;
+}
+
+.panel-green a:hover {
+    color: #3d8b3d;
+}
+
+
+
+.panel-green .panel-heading6 {
+    border-color: #5cb85c;
+    color: #fff;
+    background-color: #9CCC65;
+
+}
+
+
+
+
+
+
+
+
+.panel-red {
+    border-color: #d9534f;
+}
+
+.panel-red .panel-heading {
+    border-color: #d9534f;
+    color: #fff;
+    background-color: #d9534f;
+}
+
+.panel-red a {
+    color: #d9534f;
+}
+
+.panel-red a:hover {
+    color: #b52b27;
+}
+
+.panel-red .panel-heading8 {
+    border-color: #d9534f;
+    color: #fff;
+    background-color: #E57373;
+}
+
+
+
+
+
+.panel-yellow {
+    border-color: #f0ad4e;
+}
+
+.panel-yellow .panel-heading {
+    border-color: #f0ad4e;
+    color: #fff;
+    background-color: #f0ad4e;
+}
+
+.panel-yellow a {
+    color: #f0ad4e;
+}
+
+.panel-yellow a:hover {
+    color: #df8a13;
+}
+
+.panel-yellow .panel-heading7 {
+    border-color: #f0ad4e;
+    color: #fff;
+    background-color: #FFCC80;
+}
+
+
+
+
+
+
+
+
+
+
+
+.panel-purple {
+    border-color: #9C27B0;
+}
+
+.panel-purple .panel-heading {
+    border-color: #9C27B0;
+    color: #fff;
+    background-color: #9C27B0;
+}
+#panel-heading {
+    border-color: #9C27B0;
+    color: #fff;
+    background-color: #BA68C8;
+}
+
+.panel-purple a {
+    color: #9C27B0;
+}
+
+.panel-purple a:hover {
+    color: #4A148C;
+}
+
+
+
+.panel-teal {
+    border-color: #009688;
+}
+
+.panel-teal .panel-heading {
+    border-color: #009688;
+    color: #fff;
+    background-color: #009688;
+}
+#panel-heading1 {
+    border-color: #009688;
+    color: #fff;
+    background-color: #4DB6AC;
+}
+
+.panel-teal a {
+    color: #4DB6AC;
+}
+
+.panel-teal a:hover {
+    color: #00695C;
+}
+
+
+
+
+
+
+
+
+.panel-grey {
+    border-color: #9E9E9E;
+}
+
+.panel-grey .panel-heading {
+    border-color: #9E9E9E;
+    color: #fff;
+    background-color: #9E9E9E;
+}
+#panel-heading2 {
+    border-color: #9E9E9E;
+    color: #fff;
+    background-color: #BDBDBD;
+}
+
+.panel-grey a {
+    color: #757575;
+}
+
+.panel-grey a:hover {
+    color: #424242;
+}
+
+
+
+
+
+
+
+
+
+.panel-brown {
+    border-color: #795548;
+}
+
+.panel-brown .panel-heading {
+    border-color: #795548;
+    color: #fff;
+    background-color: #795548;
+}
+#panel-heading3 {
+    border-color: #795548;
+    color: #fff;
+    background-color: #8D6E63;
+}
+
+.panel-brown a {
+    color: #5D4037;
+}
+
+.panel-brown a:hover {
+    color: #3E2723;
+}
+
+
+
+
+
+.morris-hover
+{
+    position:absolute;
+    z-index:1000
+}
+.morris-hover.morris-default-style
+{
+    border-radius:10px;padding:6px;
+    color:#666;
+    background:rgba(255,255,255,0.8);
+    border:solid 2px rgba(230,230,230,0.8);
+    font-family:sans-serif;
+    font-size:12px;text-align:center
+}
+.morris-hover.morris-default-style .morris-hover-row-label
+{
+    font-weight:bold;margin:0.25em 0
+}
+.morris-hover.morris-default-style .morris-hover-point
+{
+    white-space:nowrap;margin:0.1em 0
+}
+
+
+#container, #sliders {
+    min-width: 310px; 
+    max-width: 800px;
+    margin: 0 auto;
+}
+#container {
+    height: 400px; 
+}
+
+
+/* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -100px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 100px;
+      }
+      #footer {
+       /* background-color: #f5f5f5;*/
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+          height: 20px;
+        }
+      }

@@ -1,0 +1,12 @@
+.non-printable {
+    display: none;
+}
+
+.only-printable {
+    display: block;
+}
+
+.pdf .condense {
+    padding: 0px;
+    margin: 0px;
+}

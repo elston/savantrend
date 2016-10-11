@@ -1,0 +1,32 @@
+{% extends 'web/base.html' %}
+{% load staticfiles %}
+
+{% block menu_2 %} class="active" {% endblock %}
+
+{% block extracss %}
+<link href="{% static 'web/css/reports.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block body_block %}
+<div class="reportDash"><div class="xcontainer content">
+
+<div class="row">
+    <div class="col-md-3 col-xs-12 col-centered ">
+        <h2>Reports</h2>
+    </div>
+</div>
+<br/>
+
+        <div class="row">
+            {% for report in reports %}
+            <div class="col-md-4 col-xs-12 col-centered ">
+                <a href="{% url report.urlname %}">
+                    <div class="box">{{ report.name }}</div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+</div></div>
+
+{% endblock %}

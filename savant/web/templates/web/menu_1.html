@@ -1,0 +1,15 @@
+{% extends 'reports/base_reports.html' %}
+
+{% block title %} {{ request.user.username }} {% endblock %}
+
+{% block menu_1 %} class="active" {% endblock %}
+{% block menu_2 %}{% endblock %}
+
+{% block report_header %}
+{{ csrftoken }}
+{% endblock %}
+
+{% block report %}
+<div class="reportdata hidden" data-name="executivesummary" id="reportdata" data-url="{% url 'executivesummary-report' %}?dashboard=true" data-reportname="executivesummary">
+</div>
+{% endblock %}

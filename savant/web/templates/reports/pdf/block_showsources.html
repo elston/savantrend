@@ -1,0 +1,23 @@
+<div class="only-printable reportsummary">
+<h3>Filter values:</h3>
+<div class="row">
+    <div class="col-md-12">
+        {% for item in enabled_items %}
+        <div class="row borderbottom">
+        <div class="col-md-2 col-xs-2 filtertitle-text"><b>{{ item.0 }}</b></div>
+        <div class="col-md-10 col-xs-10 condense">
+        <div class="row">
+        {% for subitem in item.1 %}
+        <div class="col-md-4 col-xs-4 condense filterval-text">
+        {{ subitem }}
+        </div>
+        {% endfor %}
+        </div>
+        </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br/>
+<br/>
+</div>

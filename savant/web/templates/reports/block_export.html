@@ -1,0 +1,14 @@
+{% if not export %}
+<div class="btn-group non-printable">
+    <button type="button" class="btn btn-secondary dropdown-toggle nav-hg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Export
+    </button>
+
+    <div class="dropdown-menu" role="list">
+        <li><a href="#" onclick="exportReport('print')">PRINT</a></li>
+        {% for eformat in export_formats %}
+        <li><a href="#" onclick="exportReport('{{ eformat }}')">{{ eformat.upper }}</a></li>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

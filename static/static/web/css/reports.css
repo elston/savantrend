@@ -1,0 +1,969 @@
+﻿
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+      /* inline-block space fix */
+    margin-right:-4px;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.borderbottom {
+    border-bottom: 1px solid #000000;
+}
+
+.filtertitle-text {
+    font-size: 80%;
+}
+.filterval-text {
+    font-size: 75%;
+}
+
+.row-middle {
+    display: table;
+}
+.col-middle {
+    display: table-cell;
+    vertical-align: middle;
+    /* display: inline-block;
+    height: 100%; */
+}
+
+.reportchart-old {
+    height: 60%;
+    width:100%;
+}
+
+#seldate {
+    width: 160px;
+    text-align: center;
+}
+
+.performancetrendanalysis .badge {
+    float: left !important;
+}
+
+th, thead {
+  background: #006a72;
+}
+th, th a {
+  color: #fff;
+}
+th a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.daterangepicker th,
+.datepicker th {
+    border-radius: 0px !important;
+}
+
+.daterangepicker .ranges, .daterangepicker .ranges ul {
+    width: 140px;
+}
+
+.kpchg .select2.select2-container {
+    position: relative;
+    width: 100% !important;
+    display: table-cell;
+}
+.kpchg
+.select2.select2-container span.selection .select2-selection--single{
+    height: 100% !important;
+}
+
+.mbt-10 {
+    margin-bottom: 10px;
+    /*padding-bottom: 5px;*/
+}
+
+.nav-hg {
+    border: 1px solid #bebebe;
+    border-radius: 4px;
+}
+
+.mp0 {
+    margin: 0;
+    padding: 0;
+}
+
+.pr0 {
+    padding-right: 0;
+}
+
+.pl0 {
+    padding-left: 5px;
+    float: left;
+}
+
+.vcenter {
+    position: relative;
+    top: 6px;
+    white-space: nowrap;
+}
+
+.navli {
+    padding-top: 10px !important;
+}
+
+label {
+    font-weight: 400 !important;
+}
+
+.navli .navul {
+    width: 100% !important;
+}
+
+.navli li {
+    margin-bottom: 10px;
+}
+
+.catmul ul {
+    width: 200px !important;
+}
+
+.catmul .multiselect-container > li > a {
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* for updated reports */
+.table-bordered {
+    border: 1px solid #878787;
+}
+
+    .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+        border: 1px solid #878787;
+    }
+
+/* ends */
+
+.hr {
+    margin-top: 10px;
+}
+
+.multiselect-container {
+    min-width: 160px !important;
+    width: auto !important;
+    max-height: 200px;
+    /*overflow-x:visible;*/
+    overflow-y: auto;
+}
+
+.multiselect {
+    width: 160px;
+    max-width: 160px;
+    overflow: hidden;
+}
+
+.multiselect-container li {
+    margin-bottom: 0;
+}
+
+.mlabel {
+    display: inline-block;
+}
+
+.mcon {
+    display: inline-block;
+}
+
+.week-total {
+    margin-top: 62px;
+    width: 100%;
+}
+
+    .week-total .whead {
+        height: 31px;
+        background-color: #006a72;
+        color: #fff;
+        /*font-size: 10px;*/
+        padding: 1px;
+        font-weight: 400;
+        border-style: solid;
+        border-width: 1px;
+        border-right: none;
+        vertical-align: central;
+        text-align: center;
+        word-wrap: break-word;
+        white-space: nowrap;
+    }
+
+    .week-total td:not(.whead) {
+        height: 79px;
+        text-align: center;
+        font-weight: bold;
+        margin: 0px !important;
+        padding: 0px !important;
+        border-style: solid;
+        border-width: 0px 0px 1px 1px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+.ttlt {
+    height: 100px;
+    border-radius: 4px;
+    padding-top: 30px;
+}
+
+.multiselect-container > li > a.multiselect-all label {
+    font-weight: normal !important;
+}
+
+.trendAnalysis.table-bordered {
+    border: none;
+}
+
+    .trendAnalysis.table-bordered > tbody > tr > td:not(.currentDay):not(.past), .trendAnalysis.table-bordered > tbody > tr > th, .trendAnalysis.table-bordered > tfoot > tr > td, .trendAnalysis.table-bordered > tfoot > tr > th, .trendAnalysis.table-bordered > thead > tr > td, .trendAnalysis.table-bordered > thead > tr > th {
+        border: none;
+    }
+
+.trendAnalysis {
+    font-size: 17px;
+}
+
+    .trendAnalysis tr:not(.trcheck) {
+        height: 130px;
+    }
+
+    .trendAnalysis.table {
+        width: 99.6%;
+    }
+
+    .trendAnalysis td:not(.tdcheck) {
+        width: 19%;
+        min-height: 15%;
+        text-align: center;
+        vertical-align: top;
+        border: 10px solid #ababab;
+    }
+
+    .trendAnalysis .currentDay {
+        /*background-color: #006a72;*/
+        color: black;
+        /*text-shadow: 1px 1px #000000;*/
+    }
+
+    .trendAnalysis .past {
+        /*background-color: #ce8006;*/
+        color: black;
+        /*text-shadow: 1px 1px #000000;*/
+    }
+
+    .trendAnalysis td.currentDay:hover {
+        background-color: #058992;
+        cursor: pointer;
+    }
+
+    .trendAnalysis td.past:hover {
+        background-color: #ee960b;
+        cursor: pointer;
+    }
+
+    .trendAnalysis .cval {
+        position: relative;
+        top: 5px;
+        font-size: 30px;
+        font-family: 'Open Sans';
+    }
+
+    .trendAnalysis .mval {
+        font-size: 30px;
+        font-family: 'Open Sans';
+    }
+
+    .trendAnalysis .vari {
+        font-size: 16px;
+        position: relative;
+        top: 5px;
+    }
+
+    .trendAnalysis .tdcheck {
+        vertical-align: middle;
+    }
+
+        .trendAnalysis .tdcheck .form-control {
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            height: 15px;
+        }
+
+    .trendAnalysis .blank {
+        background-color: transparent !important;
+        color: white !important;
+        border: none !important;
+        text-shadow: none !important;
+    }
+
+        .trendAnalysis .blank .mval {
+            display: none !important;
+        }
+
+.executive {
+    font-size: 17px;
+}
+
+    .executive.table {
+        width: 99.6%;
+    }
+
+    .executive td:not(.tdcheck) {
+        width: 23%;
+        min-height: 15%;
+        text-align: center;
+        vertical-align: top;
+        border: 10px solid #ababab !important;
+    }
+
+    .executive .even {
+        /*background-color: #006a72;*/
+        color: black;
+        /*text-shadow: 1px 1px #000000;*/
+    }
+
+    .executive .odd {
+        /*background-color: #ce8006;*/
+        color: black;
+        padding-left: 0px;
+        padding-right: 0px;
+        /*text-shadow: 1px 1px #000000;*/
+    }
+
+    .executive tr:not(.trcheck) {
+        height: 130px;
+    }
+
+    .pdf .executive tr {
+        height: 160px;
+    }
+
+    .executive .tdcheck {
+        width: 4%;
+    }
+
+    .executive .tdcheck {
+        vertical-align: middle;
+    }
+
+        .executive .tdcheck .form-control {
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            height: 15px;
+        }
+
+    .executive.table-bordered {
+        border: none;
+    }
+
+        .executive.table-bordered > tbody > tr > td:not(.even):not(.odd), .executive.table-bordered > tbody > tr > th, .executive.table-bordered > tfoot > tr > td, .executive.table-bordered > tfoot > tr > th, .executive.table-bordered > thead > tr > td, .executive.table-bordered > thead > tr > th {
+            border: none;
+        }
+
+    .executive td.even:hover {
+        background-color: #058992;
+        cursor: pointer;
+    }
+
+    .executive td.odd:hover {
+        background-color: #ee960b;
+        cursor: pointer;
+    }
+
+    .executive .mval {
+        position: relative;
+        top: 15px;
+        font-size: 30px;
+        font-family: 'Open Sans';
+    }
+
+    .executive .blank {
+        background-color: transparent !important;
+        color: white !important;
+        border: none !important;
+        text-shadow: none !important;
+    }
+
+        .executive .blank .mval {
+            display: none !important;
+        }
+
+th.dynatable-head {
+    color: #FFFFFF;
+    /* font-weight: normal; */
+}
+
+/* KPI COLORS */
+.reportdata table td, .reportdata table th {
+    text-align: center;
+}
+
+td.footfall a, td.sales a, td.trans a, td.units a, td.staff a, td.pconv a, td.atv a, td.upt a, td.acv a, td.ctsr a, td.upc a, td.sps a {
+    color: #000000 !important;
+}
+
+td.footfall {
+    background-color: #ADD9FE;
+}
+
+td.sales {
+    background-color: #FFCCFF;
+}
+
+td.trans {
+    background-color: #529A86;
+}
+
+td.units {
+    background-color: #B39EB5;
+}
+
+td.staff {
+    background-color: #F7BB80;
+}
+
+td.Conv, .conv {
+    background-color: #77DD77;
+}
+
+td.atv {
+    background-color: #CFCFC4;
+}
+
+td.upt, .utp {
+    background-color: #FF6961;
+}
+
+td.acv {
+    background-color: #FDFD96;
+}
+
+td.ctsr {
+    background-color: #c4caff;
+}
+
+td.upc {
+    background-color: #C4D99C;
+}
+
+td.sps {
+    background-color: #DEFFE9;
+}
+/*.blc a:not(first-child){
+    color:#000000 !important;
+}*/
+.bdr {
+    border: 1px solid #2b2b2b;
+    border-collapse: collapse;
+    text-align: center;
+    min-height: 70px;
+}
+
+.abbrv {
+    border: 1px solid #bebebe;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    padding: 10px 0;
+    /* font-size: 12px; */
+}
+
+.kind {
+    background-color: #000000 !important;
+}
+
+.dkind {
+    color: black !important;
+    background-color: #fff !important;
+    float: right;
+}
+
+.ctr3 {
+    padding-right: 13% !important;
+    padding-left: 13% !important;
+}
+/**/
+.grey-cell {
+    background-color: #F8F8F8 !important;
+}
+
+.fc-day-number {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+/* Setting page css*/
+.setting {
+    /* font-family: 'Open Sans',Calibri,Arial; */
+    /* background: #fff; */
+    /* text-shadow: 1px 4px 6px #fbfbfb, 0 0 0 #000000, 1px 4px 6px #fbfbfb; */
+}
+
+    .setting .input-group-addon {
+        padding: 2px 2px !important;
+    }
+
+    .setting .colorpicker-element .input-group-addon i, .colorpicker-element .add-on i {
+        height: 25px !important;
+        width: 25px !important;
+    }
+
+    .setting .form-control[disabled], .setting .form-control[readonly] {
+        /* background-color: #fff; */
+        opacity: 1;
+    }
+
+    .setting .colorpicker-2x .colorpicker-saturation {
+        width: 200px;
+        height: 200px;
+    }
+
+    .setting .colorpicker-2x .colorpicker-hue,
+    .setting .colorpicker-2x .colorpicker-alpha {
+        width: 30px;
+        height: 200px;
+    }
+
+    .setting .colorpicker-2x .colorpicker-color,
+    .setting .colorpicker-2x .colorpicker-color div {
+        height: 30px;
+    }
+
+    .setting h2 {
+        /* font-family: 'Open Sans',Calibri,Arial;
+        font-weight: 400;
+        border-bottom: 1px solid #878787;
+        padding-bottom: 5px; */
+    }
+
+    .setting h4 {
+        /* font-family: 'Open Sans',Calibri,Arial;
+        font-weight: 400; */
+    }
+
+    .setting {
+        /* background-color: #fefefe; */
+        margin-top: 1%;
+        margin-bottom: 1%;
+        border: 1px solid #bebebe;
+        padding: 0 15px 15px 15px;
+        border-radius: 5px;
+    }
+
+    .setting .crow {
+        padding: 0 15px;
+    }
+
+    .setting .mbot5 {
+        margin-bottom: 15px;
+    }
+
+.modal-content {
+    font-family: 'Open Sans',Calibri,Arial;
+    font-weight: 400;
+}
+
+.modal-footer {
+    border-top: none !important;
+    border-bottom: 3px solid #e5be07;
+    border-radius: 6px;
+}
+
+.modal-header {
+    border-top: 5px solid #e5be07;
+    border-radius: 6px;
+}
+
+fieldset.border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend.border {
+    width: inherit; /* Or auto */
+    padding: 0 10px; /* To give a bit of padding on the left and right */
+    border-bottom: none;
+    font-size: 18px;
+}
+
+
+.setting ::-moz-selection {
+    text-shadow: none;
+    background-color: #0cafba;
+    color: white;
+}
+
+.setting ::selection {
+    text-shadow: none;
+    background-color: #0cafba;
+    color: white;
+}
+
+.error {
+    border: 1px solid red !important;
+}
+
+.showbtn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.reportbtn {
+    border: 1px solid #bebebe;
+    border-radius: 4px;
+}
+
+.navbar-collapse {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.list-inline > li {
+    padding-left: 0;
+}
+
+.padleft0 {
+    padding-left: 0;
+}
+
+.textleft {
+    text-align: left;
+}
+
+.textRight {
+    text-align: right;
+    word-wrap: break-word;
+    white-space: normal;
+}
+/*setting page css ends*/
+
+.zoom img {
+    cursor: pointer;
+}
+
+.fullscreen {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100% !important;
+    height: 98% !important;
+    z-index: 10000;
+    margin-bottom: 0 !important;
+    background: white;
+}
+
+.respFull {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100% !important;
+    height: 100% !important;
+    margin-bottom: 0 !important;
+    overflow-y: scroll;
+}
+
+.corner {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    z-index: 100000;
+    background-color: white;
+}
+
+.reportDash {
+    margin: 1px;
+    font-family: Calibri;
+}
+
+.site-table table th, .zone-table table th {
+    text-align: center;
+}
+
+    .reportDash .content {
+        /* margin-top: 2%; */
+        /* background-color: #f3f3f3; */
+        /* border: 1px solid #a9a9a9; */
+        /* border-radius:5px; */
+    }
+
+        .reportDash .content .box {
+            background-color: #337ab7;
+            opacity: 0.65;
+            margin: 0 auto;
+            width: 150px;
+            height: 150px;
+            color: white;
+            font-size: 20px;
+            padding: 10px;
+            border: 1px solid #0a8087;
+            -webkit-box-shadow: 6px 6px 10px 0px rgba(163,163,163,1);
+            -moz-box-shadow: 6px 6px 10px 0px rgba(163,163,163,1);
+            box-shadow: 6px 6px 10px 0px rgba(163,163,163,1);
+            cursor:pointer;
+            border-top-left-radius:0;
+            border-top-right-radius:30px;
+            border-bottom-left-radius:30px;
+            border-bottom-right-radius:0;
+            margin-bottom:20px;
+        }
+
+            .reportDash .content .box:hover {
+                background-color: #c38d0b;
+                border: 1px solid #c38d0b;
+                -webkit-transition: background-color 0.3s ease-out;
+                -moz-transition: background-color 0.3s ease-out;
+                -o-transition: background-color 0.3s ease-out;
+                transition: background-color 0.3s ease-out;
+            }
+
+            .reportDash .content a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+                .reportDash .content a:hover {
+                    /*color: #ededed;*/
+                    /*color: #0da4b9;*/
+                    text-decoration: none;
+                    transition: all 0.5s ease;
+                }
+
+
+@media screen and (max-width: 767px) {
+    .catmul ul {
+        width: auto !important;
+    }
+    .reportDash .content .box {
+        width:auto;
+        height:auto;
+        border-radius:10px;
+
+    }
+    .ctr3 {
+        padding-right: 15px !important;
+        padding-left: 15px !important;
+    }
+
+    .table-responsive {
+        border: none;
+    }
+
+    .ttlt {
+        height: 100px;
+        border-radius: 4px;
+        font-size: 12px;
+        padding-top: 10px;
+        padding-left: 2px;
+    }
+
+
+    .navli li {
+        margin-bottom: 10px;
+    }
+
+        /*.navli li .tag {
+            min-width: 150px;
+            text-align: right;            
+            display: inline-block;
+            vertical-align: top;
+        }*/
+        .navli li .btn-group, .btn-group-vertical {
+            width: 100%;
+        }
+
+    .multiselect-container {
+        min-width: 195px !important;
+        width: auto !important;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+        .multiselect-container li {
+            margin-bottom: 0;
+        }
+
+        .multiselect-container > li > a > label {
+            padding: 3px 20px 3px 25px;
+        }
+
+    #category4 {
+        min-width: 195px;
+        float: left;
+    }
+
+    .navbar-nav .open .dropdown-menu {
+        background-color: #fff;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    }
+
+        .navbar-nav .open .dropdown-menu .dropdown-header, .navbar-nav .open .dropdown-menu > li > a {
+            padding: 0;
+        }
+
+    .dynatable-per-page {
+        float: right;
+        margin-bottom: 5px;
+        width: 95%;
+        text-align: right;
+    }
+
+    .rep {
+        padding: 0 5px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .mlabel {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+        float: left;
+        text-align: right;
+        width: 33.33333333%;
+        white-space: nowrap;
+    }
+
+    .mcon {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+        float: left;
+        text-align: left;
+        width: 66.66666667%;
+        margin-bottom: 10px;
+    }
+
+    .mpl0 {
+        padding-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .hr {
+        margin-top: 0;
+    }
+
+        .hr .multiselect-container {
+            min-width: 195px !important;
+            width: auto !important;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .hr .dropdown-menu {
+            float: left !important;
+        }
+
+    .multiselect {
+        min-width: 195px;
+    }
+
+    .executive .tdcheck.resp .form-control {
+        vertical-align: middle;
+        width: auto;
+    }
+    /*.respFull.table-responsive > .table-bordered > tbody > tr > td:first-child, .respFull.table-responsive > .table-bordered > tbody > tr > th:first-child, respFull.table-responsive > .table-bordered > tfoot > tr > td:first-child, respFull.table-responsive > .table-bordered > tfoot > tr > th:first-child, respFull.table-responsive > .table-bordered > thead > tr > td:first-child, respFull.table-responsive > .table-bordered > thead > tr > th:first-child {
+        border-left:
+    }*/
+
+    .table-responsive > .executive.table > tbody > tr > td, .table-responsive > .executive.table > tbody > tr > th, .table-responsive > .executive.table > tfoot > tr > td, .table-responsive > .executive.table > tfoot > tr > th, .table-responsive > .executive.table > thead > tr > td, .table-responsive > .executive.table > thead > tr > th {
+        white-space: normal;
+    }
+
+    .executive td:not(.tdcheck) {
+        min-width: 80px;
+        max-width: 80px;
+        font-size: 14px;
+    }
+    .executive tr:not(.trcheck) {
+        height: 80px;
+    }
+
+    .pdf .executive tr {
+        height: 120px;
+    }
+    .executive td:not(.tdcheck) br.br1 {
+        display: none;
+    }
+
+    .executive .mval {
+        font-size: 16px;
+    }
+
+    .trendAnalysis .tdcheck.resp .form-control {
+        vertical-align: middle;
+        width: auto;
+    }
+
+    .trendAnalysis td:not(.tdcheck) {
+        min-width: 150px;
+        max-width: 150px;
+    }
+
+    .trendAnalysis .mval, .trendAnalysis .cval {
+        font-size: 23px;
+    }
+
+    .trendAnalysis.table {
+        width: 100%;
+    }
+
+    .table-responsive > .table-bordered:not(.executive):not(.trendAnalysis) {
+        border: 1px solid #ddd;
+    }
+
+    .drp {
+        width: 195px !important;
+    }
+
+    .dynatable-search {
+        width: 75%;
+        float: right;
+    }
+
+        .dynatable-search span {
+            display: inline;
+            position: relative;
+            top: 5px;
+        }
+
+        .dynatable-search input {
+            width: 77% !important;
+            float: right;
+        }
+
+    .setting .mbot5 {
+        margin-bottom: 10px;
+    }
+
+    #seldate {
+        width: 195px;
+    }
+
+    .dropdown-menu {
+        position: relative;
+    }
+    .daterangepicker.dropdown-menu {
+        position: absolute;
+    }
+
+    .fullscreen {
+        height: 99% !important;
+    }
+
+}

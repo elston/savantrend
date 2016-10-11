@@ -1,0 +1,44 @@
+{% extends 'reports/pdf/base_pdf.html' %}
+{% load report_tags %}
+
+{% block addstyle %}
+{% endblock %}
+
+{% block content %}
+
+<div class="table-responsive performancetrendanalysis">
+        <table id="table1" class="table table-bordered">
+            <thead>
+                <th class="dynatable-head" height="30px">KPIs</th>
+                <th class="dynatable-head">Current</th>
+                <th class="dynatable-head">Past Day</th>
+                <th class="dynatable-head">% (PD)</th>
+                <th class="dynatable-head">Past Week</th>
+                <th class="dynatable-head">% (PW)</th>
+                <th class="dynatable-head">Past Month</th>
+                <th class="dynatable-head">% (PM)</th>
+                <th class="dynatable-head">Past Year</th>
+                <th class="dynatable-head">% (PY)</th>
+            </thead>
+            <tbody>
+            {% for kpiname, kpi in report.kpi.items %}
+            {% if kpi.enabled %}
+            <tr class="{{ kpi.css }}">
+                <td data-ind="{{ forloop.counter }}"><span class="badge kind indkpi">{{ forloop.counter }}</span>{{ kpi.fullname }}</td>
+                <td class="current">{{ kpi.current_day|formatkpi:kpi.format }}</td>
+                <td class="pastday">{{ kpi.past_day|formatkpi:kpi.format }}</td>
+                <td class="-(Pd)">{{ kpi.past_day_perc|default:0 }}%</td>
+                <td class="pastweek">{{ kpi.past_week|formatkpi:kpi.format }}</td>
+                <td class="-(Pw)">{{ kpi.past_week_perc|default:0 }}%</td>
+                <td class="pastmonth">{{ kpi.past_month|formatkpi:kpi.format }}</td>
+                <td class="-(Pm)">{{ kpi.past_month_perc|default:0 }}%</td>
+                <td class="pastyear">{{ kpi.past_year|formatkpi:kpi.format }}</td>
+                <td class="-(Py)">{{ kpi.past_year_perc|default:0 }}%</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

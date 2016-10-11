@@ -1,0 +1,30 @@
+{% extends 'reports/pdf/base_pdf.html' %}
+{% load report_tags %}
+
+{% block addstyle %}
+{% endblock %}
+
+{% block kpisummary %}{% endblock %}
+
+{% block content %}
+
+<table class="table table-bordered trendAnalysis" id="table1"><tbody>
+
+{% for kpiname, kpi in report.kpi.items %}
+{% if kpi.enabled %}
+<tr>
+<td data-ind="{{ forloop.counter }}" class="currentDay {{ kpi.css }}"><span class="badge kind indkpi">{{ forloop.counter }}</span><br>{{ kpi.fullname }}<br>Current Day<br><span class="cval">{{ kpi.current_day|formatkpi:kpi.format }}</span></td>
+<td data-ind="{{ forloop.counter }}" class="currentDay {{ kpi.css }}"><span class="badge kind indkpi">{{ forloop.counter }}</span><br>{{ kpi.fullname }}<br>Past Day<br><span class="mval">{{ kpi.past_day|formatkpi:kpi.format }}</span><br><span class="vari">{{ kpi.past_day_perc|default:0 }}%</span></td>
+<td data-ind="{{ forloop.counter }}" class="currentDay {{ kpi.css }}"><span class="badge kind indkpi">{{ forloop.counter }}</span><br>{{ kpi.fullname }}<br>Past Week<br><span class="mval">{{ kpi.past_week|formatkpi:kpi.format }}</span><br><span class="vari">{{ kpi.past_week_perc|default:0 }}%</span></td>
+<td data-ind="{{ forloop.counter }}" class="currentDay {{ kpi.css }}"><span class="badge kind indkpi">{{ forloop.counter }}</span><br>{{ kpi.fullname }}<br>Past Month<br><span class="mval">{{ kpi.past_month|formatkpi:kpi.format }}</span><br><span class="vari">{{ kpi.past_month_perc|default:0 }}%</span></td>
+<td data-ind="{{ forloop.counter }}" class="currentDay {{ kpi.css }}"><span class="badge kind indkpi">{{ forloop.counter }}</span><br>{{ kpi.fullname }}<br>Past Year<br><span class="mval">{{ kpi.past_year|formatkpi:kpi.format }}</span><br><span class="vari">{{ kpi.past_year_perc|default:0 }}%</span></td>
+</tr>
+{% endif %}
+{% endfor %}
+
+</tbody></table>
+
+{% endblock %}
+
+{% block charts %}
+{% endblock %}

@@ -1,0 +1,508 @@
+{% extends base_template %}
+{% load staticfiles %}
+
+{% block menu_settings %} class="active" {% endblock %}
+
+{% block extracss %}
+<link href="{% static 'web/css/select2.min.css' %}" rel="stylesheet"/>
+<link rel="stylesheet" media="all" href="{% static 'tem/fontselector/fontselector.css' %}" />
+<link rel="stylesheet" media="all" href="{% static 'tem/fontselector/googlefontselector.css' %}" />
+<link rel="stylesheet" media="all" href="{% static 'tem/bootstrap-switch/css/bootstrap-switch.min.css' %}" />
+<link rel="stylesheet" media="all" href="{% static 'tem/colorpicker/dist/css/bootstrap-colorpicker.min.css' %}" />
+<link rel="stylesheet" media="all" href="{% static 'web/css/reports.css' %}" />
+{% endblock %}
+{% block extrascript %}
+<script type="text/javascript" src="{% static 'web/js/select2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/js-cookie/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/fontselector/jquery.fontselector.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/fontselector/jquery.googlefontselector.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/colorpicker/dist/js/bootstrap-colorpicker.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/underscore-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/common.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/commonsetup.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/settings.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+{{ csrftoken }}
+<div class="row inprogress">
+    <div class="col-md-12 col-xs-12 text-center">
+        <img src="{% static 'web/img/progress_large.gif' %}" class="inprogress">
+    </div>
+</div>
+<div class="container setmain hidden">
+        {% if not adminuse %}
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h2>Customization</h2>
+            </div>
+        </div>
+        <br />
+        {% endif %}
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Site Parameters
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        
+        <div class="row crow">
+            <div class="col-md-4">
+            <fieldset class="border">
+                <legend class="border">Main Logo</legend>
+                <div class="row logochg">
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 mbot5">
+                        <canvas id="logocanvas" height="{{ logo_maxheight }}" width="{{ logo_maxwidth }}" data-maxheight="{{ logo_maxheight }}" data-maxwidth="{{ logo_maxwidth }}" class="img-rounded"></canvas>
+                        {% if logo_url %}
+                        <img src="{{ logo_url }}" id="curlogo" class="hidden" data-defaultlogo="{% static 'web/img/logo_default.png' %}">
+                        {% else %}
+                        <img src="{% static 'web/img/logo_default.png' %}" id="curlogo" class="hidden" data-defaultlogo="{% static 'web/img/logo_default.png' %}">
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 mbot5">
+                        <input type="file" id="logo" data-for="logo" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="button" class="btn btn-success" value="Save" id="btnLogo" />
+                        <input type="button" class="btn btn-warning" value="Reset" id="btnResLogo" />
+                    </div>
+                </div>
+            </fieldset>
+            </div>
+
+            <div class="col-md-8">
+            <fieldset class="border">
+                <legend class="border">Site Settings</legend>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 xmbot5">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 xmbot5">
+                                <label for="sitename">Site Name</label>
+                                <input type="text" id="sitename" data-for="sitename" placeholder="Enter text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 mbot5">
+                                <label for="background">Background Color</label>
+                                <div class="input-group">
+                                    <input type="text" id="background" data-for="bg" class="form-control" />
+                                    <span class="input-group-addon colorpicker-indicator"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 mbot5">
+                                <label for="dbbackground">Dashboard Background</label>
+                                <div class="input-group">
+                                    <input type="text" id="dbbackground" data-for="dbbg" class="form-control" />
+                                    <span class="input-group-addon colorpicker-indicator"><i></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <input type="button" class="btn btn-success" value="Save" id="btnSiteSave" />
+                                <input type="button" class="btn btn-warning" value="Reset" id="btnSiteReset" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 xmbot5">
+                        <fieldset class="border">
+                            <legend class="border">Navbar</legend>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 xmbot5">
+                                    <label for="navbarbg">Background</label>
+                                    <div class="input-group">
+                                        <input type="text" id="navbarbg" data-for="navbarbg" class="form-control" />
+                                        <span class="input-group-addon colorpicker-indicator"><i></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 xmbot5">
+                                    <label for="navbarfg">Font Color</label>
+                                    <div class="input-group">
+                                        <input type="text" id="navbarfg" data-for="navbarfg" class="form-control" />
+                                        <span class="input-group-addon colorpicker-indicator"><i></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 xmbot5">
+                                <label for="navbarbgactive">Background: Active</label>
+                                <div class="input-group">
+                                    <input type="text" id="navbarbgactive" data-for="navbarbgactive" class="form-control" />
+                                    <span class="input-group-addon colorpicker-indicator"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 xmbot5">
+                                <label for="navbarfgactive">Font Color: Active</label>
+                                <div class="input-group">
+                                    <input type="text" id="navbarfgactive" data-for="navbarfgactive" class="form-control" />
+                                    <span class="input-group-addon colorpicker-indicator"><i></i></span>
+                                </div>
+                            </div>
+                            </div>                            
+                        </fieldset>
+                    </div>
+                </div>
+            </fieldset>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Fonts Settings
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        
+        <div class="row crow fontchg">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 mbot5 fontnormal">
+                        <fieldset class="border">
+                            <legend class="border">Normal Fonts</legend>
+                                {% for font in font_types_normal %}
+                                <div class="row borderbottom2">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 mbot5">
+                                        <label>{{ font.1 }}</label>
+                                        <div id="{{ font.0 }}" class="fontSelect fontSelectNormal"><div class="arrow-down"></div>
+                                        </div>
+                                        <input name="font_{{ font.2 }}_type" id="{{ font.0 }}_use"
+                                        type="radio" class="bswitch fonttypechange" data-size="mini"
+                                        data-on-color="success" data-off-color="danger" value="normal"
+                                        data-on-text="Enable" data-off-text="Disable"/>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 mbot5">
+                                        <label>Size</label>
+                                        <select id="{{ font.0 }}_size" data-for="{{ font.0 }}" class="select2">
+                                            {% for ss in font_sizes_normal %}
+                                            <option value="{{ ss }}">{{ ss }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 mbot5 fontstyles2 nopadding text-left">
+                                    <input type="checkbox" id="{{ font.0 }}_weight" class="bswitch"
+                                        data-for="{{ font.0 }}"
+                                        data-on-text="bold" data-off-text="normal"
+                                        data-size="mini"/>
+                                    <input type="checkbox" id="{{ font.0 }}_style" class="bswitch"
+                                        data-for="{{ font.0 }}"
+                                        data-on-text="italic" data-off-text="straight"
+                                        data-size="mini"/>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 mbot5 nopadding text-center">
+                                        <span id="{{ font.0 }}_example">Example<br>Text</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 mbot5 fontgoogle">
+                        <fieldset class="border">
+                            <legend class="border">Google Fonts</legend>
+                            {% for font in font_types_google %}
+                                <div class="row borderbottom2">
+                                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 mbot5">
+                                        <label>{{ font.1 }}</label>
+                                        <div id="{{ font.0 }}" class="fontSelectGoogle"><div class="arrow-down"></div>
+                                        </div>
+                                        <input name="font_{{ font.2 }}_type" id="{{ font.0 }}_use"
+                                        type="radio" class="bswitch fonttypechange" data-size="mini"
+                                        data-on-color="success" data-off-color="danger" value="google"
+                                        data-on-text="Enable" data-off-text="Disable"/>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 mbot5">
+                                        <label>Size</label>
+                                        <select id="{{ font.0 }}_size" data-for="{{ font.0 }}" class="select2">
+                                            {% for ss in font_sizes_google %}
+                                            <option value="{{ ss }}">{{ ss }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 mbot5 nopadding text-center">
+                                        <span id="{{ font.0 }}_example">Example<br>Text</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                        </fieldset>
+                    </div>
+                </div>
+                <div class=row>
+                    <div class="col-xs-12">
+                        <input type="button" class="btn btn-success" value="Save" id="btnFontSave" />
+                        <input type="button" class="btn btn-warning" value="Reset" id="btnFontReset" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Filter Labels Settings
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        
+        <div class="row crow lchg">
+            <fieldset class="border">
+                <legend class="border">Label Names</legend>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mbot5">
+                        <label for="label1">Label 1</label>
+                        <input type="text" id="label1" data-for="label" placeholder="Enter text" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mbot5">
+                        <label for="label2">Label 2</label>
+                        <input type="text" id="label2" data-for="label" placeholder="Enter text" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mbot5">
+                        <label for="label3">Label 3</label>
+                        <input type="text" id="label3" data-for="label" placeholder="Enter text" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mbot5">
+                        <label for="label4">Label 4</label>
+                        <input type="text" id="label4" data-for="label" placeholder="Enter text" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mbot5">
+                        <label for="label5">Label 5</label>
+                        <input type="text" id="label5" data-for="label" placeholder="Enter text" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mbot5">
+                        <label for="label6">Label 6</label>
+                        <input type="text" id="label6" data-for="label" placeholder="Enter text" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="button" class="btn btn-success" value="Save" id="btnLabelSave" />
+                        <input type="button" class="btn btn-warning" value="Reset" id="btnLabelReset" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          KPI Settings
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        
+        <div class="row crow kpchg setting">
+                <div class="row">
+                    {% for kpi in allkpis %}
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 mbot5">
+                        <fieldset class="border">
+                            <legend class="border">{{ kpi.name }}</legend>
+                            <small>{{ kpi.displayname }}</small>
+                            <div class="input-group kpist">
+                                <label class="input-group-addon" for="kpiname{{ kpi.nameclean }}">LABEL</label>
+                                <input type="text" id="kpiname{{ kpi.nameclean }}" data-for="rkpiname" class="form-control" />
+                            </div>
+                            <div class="input-group kpist">
+                                <label class="input-group-addon" for="{{ kpi.name }}">COLOR</label>
+                                <input type="text" id="{{ kpi.name }}" data-for="kpi" class="form-control" />
+                                <span class="input-group-addon colorpicker-indicator"><i></i></span>
+                            </div>
+                            <div class="input-group kpist">
+                                <label class="input-group-addon" for="kpiformat{{ kpi.nameclean }}">FORMAT</label>
+                                <select id="kpiformat{{ kpi.nameclean }}" data-for="kpiformat" class="form-control select2">
+                                    {% for fmtname, fmt in dec_formats.items %}
+                                    <option value="{{ fmtname }}" data-text="{{ fmt.0 }}">{{ fmt.0|safe }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </fieldset>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="button" class="btn btn-success" value="Save" id="btnKpiSave" />
+                        <input type="button" class="btn btn-warning" value="Reset" id="btnKpiReset" />
+                    </div>
+                </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFive">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+          Report Settings
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+      <div class="panel-body">
+       
+        <div class="row crow rpchg">
+                <div class="row">
+                    {% for report in allreports %}
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 mbot5">
+                    <fieldset class="border">
+                        <legend class="border">Report {{ forloop.counter }}</legend>
+                        <label for="{{ report.reportid }}">Report Name</label>
+                        <input type="text" id="{{ report.reportid }}" data-for="report" placeholder="Enter text" class="form-control" />
+                        <label for="{{ report.reportid }}_header">Report Header</label>
+                        <input type="text" id="{{ report.reportid }}_header" data-for="report" placeholder="Enter text" class="form-control" />
+                        <label for="{{ report.reportid }}_footer">Report Footer</label>
+                        <input type="text" id="{{ report.reportid }}_footer" data-for="report" placeholder="Enter text" class="form-control" />
+                        <label for="{{ report.reportid }}_date_format">Date Format</label>
+                        <div id='{{ report.reportid }}_date_format_group'>
+                        <input type="text" id="{{ report.reportid }}_date_format" data-for="report" placeholder="Enter format" class="form-control" />
+                        <span
+                            type='text'
+                            class="help-block"
+                            data-date-format-example-for='{{ report.reportid }}_date_format'
+                            data-date-format-example-error-class='has-error'
+                            data-date-format-example-error-target='{{ report.reportid }}_date_format_group'
+                            >
+                        </span>
+                        </div>
+                        {% include 'reports/strftime_info.html' with id=report.reportid %}
+                    </fieldset>
+                    </div>
+
+                    {% endfor %}
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="button" class="btn btn-success" value="Save" id="btnReportSave" />
+                        <input type="button" class="btn btn-warning" value="Reset" id="btnReportReset" />
+                    </div>
+                </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingSix">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+          Email Settings
+        </a>
+      </h4>
+    </div>
+    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+      <div class="panel-body">
+       
+        <div class="row crow emlchg">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-offset-1 col-lg-offset-1 col-md-3 col-lg-3 mbot5">
+                        <label for="email_from">From</label>
+                        <input type="email" id="email_from" data-for="email" placeholder="Enter Email" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 mbot5">
+                        <label for="email_user">SMTP User</label>
+                        <input type="text" id="email_user" data-for="email" placeholder="Enter user id" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 mbot5">
+                        <label for="email_pass">SMTP Password</label>
+                        <input type="password" id="email_pass" data-for="email" placeholder="" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 mbot5">
+                        <br/>
+                        <label for="email_tls">Use TLS?</label>
+                        <input type="checkbox" id="email_tls" data-for="email" placeholder="" class="form-control bswitch" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-offset-1 col-lg-offset-1 col-md-3 col-lg-3 mbot5">
+                        <label for="email_host">SMTP Host</label>
+                        <input type="text" id="email_host" data-for="email" placeholder="Enter SMTP host" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 mbot5">
+                        <label for="email_port">SMTP Port</label>
+                        <input type="text" id="email_port" data-for="email" placeholder="Enter SMTP Port" class="form-control" />
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 mbot5">&nbsp;</div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 mbot5">
+                        <br/>
+                        <label for="email_ssl">Use SSL?</label>
+                        <input type="checkbox" id="email_ssl" data-for="email" placeholder="" class="form-control bswitch" />
+                    </div>
+                </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="button" class="btn btn-success" value="Save" id="btnEmailSave" />
+                        <input type="button" class="btn btn-warning" value="Reset" id="btnEmailReset" />
+                    </div>
+                </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+
+</div>
+
+    </div>
+    <div class="modal fade" id="mdlWarning" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span id="mdlVC"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <p><span id="mdlMsg"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-success" id="myes">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="mno">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="hidden" id="settingsdata" data-saveurl="{% url 'settings' %}" data-userid="{{ userid }}">{{ settings }}</div>
+<div class="hidden" id="settingsdefaults">{{ defaults }}</div>
+<div class="hidden" id="font_types_normal">{{ font_types_normal_json }}</div>
+<div class="hidden" id="font_names_normal">{{ font_names_normal }}</div>
+<div class="hidden" id="font_types_google">{{ font_types_google_json }}</div>
+<div class="hidden" id="font_names_google">{{ font_names_google }}</div>
+{% endblock %}

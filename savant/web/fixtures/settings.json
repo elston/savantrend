@@ -1,0 +1,12 @@
+[
+    {
+        "fields": {
+            "code": "warning_email",
+            "info": "Warning Email",
+            "type": 1,
+            "value": "sdswarningemails@gmail.com",
+            "user": null
+        },
+        "model": "web.setting"
+    }
+]

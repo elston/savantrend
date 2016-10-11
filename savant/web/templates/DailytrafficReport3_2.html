@@ -1,0 +1,710 @@
+
+{% extends 'web/base.html' %}
+
+{% block title %} {{ request.user.username }} {% endblock %}
+
+{% block menu_2 %} class="active" {% endblock %}
+
+{% block body_block %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"> 
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-------jquery and bootstrap scripts-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> 
+
+<!-------dynatable  scripts-->
+<link rel="stylesheet" media="all" href="/static/tem/dynatable/jquery.dynatable.css">
+<script type="text/javascript" src="/static/tem/dynatable/jquery.dynatable.js"></script>
+
+<!-------tableexport scripts-->
+<script type="text/javascript" src="/static/tem/tableexport/tableExport.js"></script>
+<script type="text/javascript" src="/static/tem/tableexport/jquery.base64.js"></script>
+<script type="text/javascript" src="/static/tem/tableexport/html2canvas.js"></script>
+<script type="text/javascript" src="/static/tem/tableexport/jspdf/libs/sprintf.js"></script>
+<script type="text/javascript" src="/static/tem/tableexport/jspdf/jspdf.js"></script>
+<script type="text/javascript" src="/static/tem/tableexport/jspdf/libs/base64.js"></script>
+
+<!-------highcharts scripts-->
+<script src="/static/tem/Highcharts/js/highcharts.js"></script>
+<script src="/static/tem/Highcharts/js/modules/exporting.js"></script>
+<script src="/static/tem/Highcharts/js/modules/canvas-tools.js"></script>
+<script src="/static/tem/Highcharts/js/modules/export-csv.js"></script>
+<script src="/static/tem/Highcharts/js/modules/jspdf.min.js"></script>
+<script src="/static/tem/Highcharts/js/highcharts-export-clientside.js"></script>
+
+<!-------Multiple select with checkboxes  scripts-->
+<link rel="stylesheet" href="/static/tem/selectmultiple/bootstrap.multiple.css">
+<script type="text/javascript" src="/static/tem/selectmultiple/bootstrap.multiselect.js"></script>
+
+<!-------Daterangepicker scripts-->
+<script type="text/javascript" src="/static/tem/daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="/static/tem/daterangepicker/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/tem/daterangepicker/daterangepicker.css" />
+</head>
+
+<body>
+
+<div class="container">
+<div class="se-pre-con"></div>
+<center>
+<div class="row">
+<div  class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<h2>Daily Traffic Trend Analysis Report</h2>
+</div>
+</div>
+</center>
+
+
+<div class="row">
+<nav class="navbar-default" >
+  <div class="container-fluid">
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menubar1">
+	MENU
+	<span class="glyphicon glyphicon-menu-hamburger"></span>
+	</button>
+    </div>
+ 
+	<div class="collapse navbar-collapse"  id="menubar1" style="margin-left:25%;margin-right:20%;">
+      <ul class="nav navbar-nav" style="border:1px solid lightgrey;text-align:center" >
+
+	 <li> 
+	SELECT CHAIN<br>
+	<select id="category1" multiple="multiple">
+	<option value='All'>All</option></select>	
+	</li>
+	
+	 <li> 
+	SELECT SITE<br>
+	<select id="category2" multiple="multiple"><option value='--'>--</option></select>	
+	</li>
+	
+	<li>
+	SELECT ZONE<br>
+	<select id="category3" multiple="multiple"><option value='--'>--</option></select>	
+	</li>
+	
+	<li>
+	SELECT DATE<br>
+	      <input id="category4" type="text" name="daterange" value="Date" style="width:auto;margin-top:4px;"/> 
+	</li>
+</div>
+	  </ul>
+	</div>
+</nav>
+</div>
+
+
+<div class="row" class="col-sx-12 col-sm-12 col-md-12 col-lg-12" >
+<div class="table-responsive" >
+	<div class="btn-group">
+	  
+	  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  Export
+	  </button>
+	  
+	  <div class="dropdown-menu">
+		<li><a href="#" onclick="printData()">PRINT</a></li>
+		<li><a href="#" onclick="$('#table1').tableExport({type:'csv',escape:'false'});"> CSV</a></li>
+		<li><a href="#" onclick="$('#table1').tableExport({type:'excel',escape:'false'});"> XLS</a></li>
+		<li><a href="#" onclick="$('#table1').tableExport({type:'png',escape:'false'});"> PNG</a></li>
+		<li><a href="#" onclick="$('#table1').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'});">PDF</a></li>
+	  </div>
+	  
+	</div>
+
+	<table id="table1" class="table table-bordered" >
+	  <thead>
+		<th align="center">timeperiod</th>
+		<th  align="center">visitors</th>
+		<th  align="center">sales</th>
+		<th  align="center">transaction</th>
+		<th  align="center">itemssold</th>
+		<th  align="center">staff</th>
+		<th  align="center">conversion</th>
+		<th  align="center">avgsales</th>
+		<th  align="center">avgcustomervalue</th>
+		<th  align="center">avgbasketsize</th>
+		<th  align="center">star</th>
+		<th  align="center">itempercust</th>
+		<th  align="center">salperstaf</th>
+	  </thead>
+	  <tbody>
+	  
+	  </tbody>
+	</table>
+</div>
+</div>
+
+<div class="row" class="col-sx-12 col-sm-12 col-md-12 col-lg-12">
+	<div id="container1" style="height:30%;width:100%; "></div>
+</div>
+
+</div>
+
+<script>
+$(window).load(function()
+{
+	$(".se-pre-con").fadeOut("slow");
+});
+
+$(document).ready(function()
+{
+
+	$('#category4').daterangepicker({
+        timePicker: true,
+        timePickerIncrement:1,
+		opens:'right',
+    	locale: {
+	    format: 'DD/MM/YYYY h:mm A'
+        }
+    });
+
+	
+ $("#category1").multiselect();
+ $("#category2").multiselect();
+ $("#category3").multiselect();
+ 
+ //jsondatafile="https://api.myjson.com/bins/4g2qr";
+ jsondatafile="/api/";
+ 
+ $.getJSON(jsondatafile, function (data) 
+	{
+
+	var continent=new Array();
+	var location=[];
+	var entrance=[];
+	var date1=[];
+	var oldlocation='';
+	var oldentrance='';
+	var olddate='';
+	j=0;
+	k=0;
+	l=0;
+	m=0;
+
+	for (i=0;i<data.length;i++)
+	{
+		if ($.inArray(data[i]["Chain_Name"],continent)==-1)
+		{
+			continent.push(data[i]["Chain_Name"]);
+		}
+		
+		
+		if (data[i]["Site_Name"] != oldlocation)
+		{
+			location[k]=data[k]["Site_Name"];
+			k=k+1;
+		}
+		oldlocation=data[i]["Site_Name"];
+		
+		if (data[i]["Zone_Name"] != oldentrance)
+		{
+		entrance[l]=data[i]["Zone_Name"];
+		l=l+1;
+		}
+		oldentrance=data[i]["Zone_Name"];
+		
+		if (data[i]["date"] != olddate)
+		{
+		date1[m]=data[i]["date"];
+		m=m+1;
+		}
+		olddate=data[i]["date"];
+	}
+	
+
+
+		datafortable1=data;
+		showtable(datafortable1);
+		
+		var dataconversion1= new Array;
+		var data1=new Array;
+		for (i=0;i<data.length;i++)
+		{
+		data1.push([data[i]["visitors"]]);
+		dataconversion1.push(data[i]["conversion"]);
+		}
+		
+		showgraph(data1,dataconversion1);
+
+			for (j=0;j<continent.length;j++)
+			{
+					if (continent[j].indexOf(" ")>0)
+					{
+					var continent1=continent[j].split(' ').join('_');
+					$("#category1").append("<option value="+continent1+">"+continent1+"</option>");
+					}	
+					
+					if (continent[j].indexOf(" ")==-1)
+					{
+					$("#category1").append("<option value="+continent[j]+">"+continent[j]+"</option>");
+					}
+					
+			}
+	$('#category1').multiselect('rebuild');
+				
+});
+	
+	$("#category1").change(function()
+	{
+		category1=$("#category1").val();
+		$("#category2").empty();
+		$("#category2").append("<option value='--SELECT--'>--SELECT--</option>");
+		$("#category2").multiselect('rebuild');
+			
+			
+		if (category1=="All")
+		{
+		var dataconversion1=new Array();
+		var data1=new Array();
+		var datafortable1= new Array();
+		var sitename1= new Array();
+		
+		$.getJSON(jsondatafile, function (data) 
+		{
+		for (i=0;i<data.length;i++)
+		{
+
+	
+		datafortable1.push({
+					"timeperiod":data[i]["timeperiod"],
+					"visitors":data[i]["visitors"],
+					"sales":data[i]["sales"],
+					"transaction":data[i]["transaction"],
+					"itemssold":data[i]["itemssold"],
+					"staff":data[i]["staff"],
+					"conversion":data[i]["conversion"],
+					"avgsales":data[i]["avgsales"],
+					"avgcustomervalue":data[i]["avgcustomervalue"],
+					"avgbasketsize":data[i]["avgbasketsize"],
+					"star":data[i]["star"],
+					"itempercust":data[i]["itempercust"],
+					"salperstaf":data[i]["salperstaf"]
+		});
+		
+					if (data[i]["Site_Name"].indexOf("_")>0)
+					{
+					var sitename=data[i]["Site_Name"].split('_').join(' ');
+					}
+					
+					if (data[i]["Site_Name"].indexOf("_")==-1)
+					{
+					var sitename=data[i]["Site_Name"];
+					}
+		data1.push([data[i]["visitors"]]);
+		dataconversion1.push(data[i]["conversion"]);
+		}
+				var dynatable = $('#table1').data('dynatable');                
+                dynatable.records.updateFromJson({records:datafortable1});
+                dynatable.records.init();               
+                dynatable.process();  
+				var graph1=$('#container1').highcharts();
+				graph1.series[0].setData(data1);
+				graph1.series[1].setData(dataconversion1);
+				graph1.xAxis[0].setCategories(datasite1);
+				graph1.xAxis[1].setCategories(dataconversion1);
+				graph1.series.options.pointWidth = 40;
+				graph1.redraw();
+		});
+		}
+		
+		if (category1[0]!="All" && category1[1]!="")
+		{
+			$.getJSON(jsondatafile,function (data) 
+			{
+			data1=new Array();
+			dataconversion1=new Array();
+			datafortable1=new Array();
+			sitename1= new Array();
+
+			for (j=0;j<category1.length;j++)
+			{	
+					if (category1[j].indexOf("_")>0)
+					{
+					var chainname=category1[j].split('_').join(' ');
+					}
+					if (category1[j].indexOf("_")==-1)
+					{
+					var chainname=category1[j];
+					}
+			
+				for (i=0;i<data.length;i++)
+				{
+					if (data[i]["Chain_Name"]==chainname)	
+					{
+					datafortable1.push({
+					"timeperiod":data[i]["timeperiod"],
+					"visitors":data[i]["visitors"],
+					"sales":data[i]["sales"],
+					"transaction":data[i]["transaction"],
+					"itemssold":data[i]["itemssold"],
+					"staff":data[i]["staff"],
+					"conversion":data[i]["conversion"],
+					"avgsales":data[i]["avgsales"],
+					"avgcustomervalue":data[i]["avgcustomervalue"],
+					"avgbasketsize":data[i]["avgbasketsize"],
+					"star":data[i]["star"],
+					"itempercust":data[i]["itempercust"],
+					"salperstaf":data[i]["salperstaf"]
+				});
+				
+					data1.push([data[i]["visitors"]]);
+					if (data[i]["Site_Name"].indexOf(" ")>0)
+					{
+					var sitename=data[i]["Site_Name"].split(' ').join('_');
+					}
+					if (data[i]["Site_Name"].indexOf(" ")==-1)
+					{
+					var sitename=data[i]["Site_Name"];
+					}
+					
+					dataconversion1.push(data[i]["conversion"]);
+
+					if ($.inArray(sitename,sitename1)==-1)
+					{
+					sitename1.push(sitename);
+					$("#category2").append("<option value="+sitename+">"+sitename+"</option>");
+					}
+
+
+					$("#category2").multiselect('rebuild');
+					}	
+				}
+			}
+
+
+			
+				var dynatable = $('#table1').data('dynatable');                
+                dynatable.records.updateFromJson({records:datafortable1});
+                dynatable.records.init();               
+                dynatable.process();  
+				var graph1=$('#container1').highcharts();
+				graph1.series[0].setData(data1);
+				graph1.series[1].setData(dataconversion1);
+				graph1.xAxis[0].setCategories(datasite1);
+				graph1.series.options.pointWidth = 40;
+				graph1.redraw();
+			
+			});
+		}
+});
+
+
+
+
+	
+	
+	
+	$("#category2").change(function()
+	{
+		category2=$("#category2").val();
+		$("#category3").empty();
+		$("#category3").append("<option value='--SELECT--'>--SELECT--</option>");
+		$("#category3").multiselect('rebuild');
+			
+			
+			$.getJSON(jsondatafile,function (data) 
+			{
+			data1=new Array();
+			dataconversion1=new Array();
+			datafortable1=new Array();
+			zones1= new Array();
+			
+			for (j=0;j<category2.length;j++)
+			{
+					if (category2[j].indexOf("_")>0)
+					{
+					var sitename=category2[j].split('_').join(' ');
+					}
+					
+					if (category2[j].indexOf("_")==-1)
+					{
+					var sitename=category2[j];
+					}
+					
+				
+				for (i=0;i<data.length;i++)
+					{	
+					
+					if (data[i]["Site_Name"]==sitename)	
+					{
+					datafortable1.push({
+					"timeperiod":data[i]["timeperiod"],
+					"visitors":data[i]["visitors"],
+					"sales":data[i]["sales"],
+					"transaction":data[i]["transaction"],
+					"itemssold":data[i]["itemssold"],
+					"staff":data[i]["staff"],
+					"conversion":data[i]["conversion"],
+					"avgsales":data[i]["avgsales"],
+					"avgcustomervalue":data[i]["avgcustomervalue"],
+					"avgbasketsize":data[i]["avgbasketsize"],
+					"star":data[i]["star"],
+					"itempercust":data[i]["itempercust"],
+					"salperstaf":data[i]["salperstaf"]
+					});
+					
+					data1.push([data[i]["visitors"]]);
+					dataconversion1.push(data[i]["conversion"]);
+					
+					if (data[i]["Zone_Name"].indexOf(" ")>0)
+					{
+					var zonename=data[i]["Zone_Name"].split(' ').join('_');
+					}
+					if (data[i]["Zone_Name"].indexOf(" ")==-1)
+					{
+					var zonename=data[i]["Zone_Name"];
+					}
+					
+					if ($.inArray(zonename,zones1)==-1)
+					{
+					zones1.push(zonename);
+					$("#category3").append("<option value="+zonename+">"+zonename+"</option>");
+					}
+					
+					$("#category3").multiselect('rebuild');
+					}
+				}
+			}
+				var dynatable = $('#table1').data('dynatable');                
+                dynatable.records.updateFromJson({records:datafortable1});
+                dynatable.records.init();               
+                dynatable.process();
+				var graph1=$('#container1').highcharts();
+				graph1.series[0].setData(data1);
+				graph1.xAxis[0].setCategories(dataconversion1);
+				graph1.series[1].setData(dataconversion1);
+				graph1.series.options.pointWidth = 40;
+				graph1.redraw();
+			
+			});
+	});
+
+
+	$("#category3").change(function()
+	{
+		category3=$("#category3").val();
+		category2=$("#category2").val();
+			
+			$.getJSON(jsondatafile,function (data) 
+			{
+			data1=new Array();
+			dataconversion1=new Array();
+			datafortable1=new Array();
+			for (m=0;m<category2.length;m++)
+			{
+					if (category2[m].indexOf("_")>0)
+					{
+					var sitename=category2[m].split('_').join(' ');
+					}
+					
+					if (category2[m].indexOf("_")==-1)
+					{
+					var sitename=category2[m];
+					}
+				
+			for (j=0;j<category3.length;j++)
+			{	
+					if (category3[j].indexOf("_")>0)
+					{
+					var zonename=category3[j].split('_').join(' ');
+					}
+					
+					if (category3[j].indexOf("_")==-1)
+					{
+					var zonename=category3[j];
+					}
+					
+				for (i=0;i<data.length;i++)
+				{
+					if (data[i]["zones"]==zonename && data[i]["sites"]==sitename)	
+					{
+					datafortable1.push({
+					"timeperiod":data[i]["timeperiod"],
+					"visitors":data[i]["visitors"],
+					"sales":data[i]["sales"],
+					"transaction":data[i]["transaction"],
+					"itemssold":data[i]["itemssold"],
+					"staff":data[i]["staff"],
+					"conversion":data[i]["conversion"],
+					"avgsales":data[i]["avgsales"],
+					"avgcustomervalue":data[i]["avgcustomervalue"],
+					"avgbasketsize":data[i]["avgbasketsize"],
+					"star":data[i]["star"],
+					"itempercust":data[i]["itempercust"],
+					"salperstaf":data[i]["salperstaf"]
+					});
+					data1.push([data[i]["visitors"]]);
+					dataconversion1.push(data[i]["conversion"]);
+					}
+				}
+			}
+			}
+				var dynatable = $('#table1').data('dynatable');                
+                dynatable.records.updateFromJson({records:datafortable1});
+                dynatable.records.init();               
+                dynatable.process();  
+				var graph1=$('#container1').highcharts();
+				graph1.series[0].setData(data1);
+				graph1.xAxis[0].setCategories(dataconversion1);
+				graph1.series[1].setData(dataconversion1);
+				graph1.series.options.pointWidth = 40;
+				graph1.redraw();
+			
+			});
+	});
+	
+$("#category4").change(function()
+	{
+		
+		var category4=$("#category4").val();
+		
+		var datetimeno=category4.search("-");
+		var datefrom=category4.substr(0,datetimeno);
+		var dateto=category4.substr(datetimeno+2);
+		
+		
+		var dayfrom1=datefrom.substr(0,2);
+		var monthfrom1=datefrom.substr(3,2);
+		var yearfrom1=datefrom.substr(6,4);
+		var timefrom1=datefrom.substr(11);
+		
+		var datefrom3=monthfrom1+"/"+dayfrom1+"/"+yearfrom1+" "+timefrom1;
+		datefrom2=new Date(datefrom3);
+				
+		var dayto1=dateto.substr(0,2);
+		var monthto1=dateto.substr(3,2);
+		var yearto1=dateto.substr(6,4);
+		var timeto1=dateto.substr(11);
+		
+		var dateto3=monthto1+"/"+dayto1+"/"+yearto1 +" "+timeto1;
+		dateto2=new Date(dateto3);
+			
+		
+		$.getJSON(jsondatafile,function (data) 
+		{
+			data1=new Array();
+			dataconversion1=new Array();
+			datafortable1=new Array();
+			
+			for (i=0;i<data.length;i++)
+				{
+					var date2=data[i].date.replace("."," ");
+					var date1=new Date(date2);
+					
+					if ((date1>=datefrom2) && (date1<=dateto2))	
+					{
+					datafortable1.push({
+					"timeperiod":data[i]["timeperiod"],
+					"visitors":data[i]["visitors"],
+					"sales":data[i]["sales"],
+					"transaction":data[i]["transaction"],
+					"itemssold":data[i]["itemssold"],
+					"staff":data[i]["staff"],
+					"conversion":data[i]["conversion"],
+					"avgsales":data[i]["avgsales"],
+					"avgcustomervalue":data[i]["avgcustomervalue"],
+					"avgbasketsize":data[i]["avgbasketsize"],
+					"star":data[i]["star"],
+					"itempercust":data[i]["itempercust"],
+					"salperstaf":data[i]["salperstaf"]
+					});
+					data1.push([data[i]["visitors"]]);
+					dataconversion1.push(data[i]["conversion"]);
+					}
+				}
+				
+				var dynatable = $('#table1').data('dynatable');                
+                dynatable.records.updateFromJson({records:datafortable1});
+                dynatable.records.init();               
+                dynatable.process();  
+				var graph1=$('#container1').highcharts();
+				graph1.series[0].setData(data1);
+				graph1.series[1].setData(dataconversion1);
+				graph1.xAxis[0].setCategories(dataconversion1);
+				graph1.series.options.pointWidth = 40;
+				graph1.redraw();
+		});
+		
+		
+
+
+});	
+	
+	
+	
+	
+	
+	
+	
+});
+
+function showtable(datafortable1)
+{
+		$("#table1").dynatable({
+		  dataset:{records:datafortable1}
+		});
+}		
+
+function showgraph(datagraph,dataconversion1)
+{
+				
+var graph1=$('#container1').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Visitors vs Conversion'
+        },
+        xAxis: {
+            categories:dataconversion1
+        },
+        yAxis: {
+            title: 
+			{
+                text: 'Conversion'
+            }
+        },
+        series: [
+		{
+		    name: 'Conversion',
+			color : '#006A72' ,
+			data: datagraph	
+		},
+		
+		{
+			type: 'spline',
+			name: 'Conversion',
+			color : '#ff0000' ,
+			data: dataconversion1
+		}
+	  
+	  
+	  
+	  ]
+	});
+}
+
+function printData()
+{
+   var divToPrint=document.getElementById("table1");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+}
+</script>
+
+
+</body>
+</center>
+</html>
+
+{% endblock %}

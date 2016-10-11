@@ -1,0 +1,36 @@
+{% extends 'reports/base_reports.html' %}
+
+{% block reportmenuitems %}
+{% block rmi_select_chain %}{{ block.super }}{% endblock %}
+{% block rmi_select_site %}{{ block.super }}{% endblock %}
+{% block rmi_select_zone %}{{ block.super }}{% endblock %}
+{% block rmi_select_kpi %}{{ block.super }}{% endblock %}
+{% block rmi_select_daterange %}{{ block.super }}{% endblock %}
+{% block rmi_select_hour %}{{ block.super }}{% endblock %}
+{% block rmi_select_comparizon %}
+
+                            <li class="col-md-4">
+                                <div class="col-xs-12 col-md-12 mpl0 pr0 padleft0">
+                                    <div class="col-xs-4 col-md-4 mp0 vcenter textRight">
+                                        COMPARISON
+                                    </div>
+                                    <div class="col-xs-8 col-md-8 pl0 text-left">
+                                        <input type="checkbox" id="comparison" class="toggle-chkbox form-control reportfilteritem comparison" name="comparison" data-off-text="{{ settings_raw.label3 }}" data-on-text="{{ settings_raw.label2 }}" {% if initials.comparison == 'true' or initial.comparison == None %}checked{% endif %}/>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="zone-select-li hidden col-xs-12 col-md-12 mpl0 pr0" style="margin-bottom:0">
+                                <div class="alert alert-info" role="alert" style="margin-bottom:0">
+                                    For {{ settings_raw.label3 }} comparison, KPIs other than {{ settings_raw.kpinameFOOTFALL }} become irrelevant, hence other KPIs are not
+                                    available for comparison.
+                                </div>
+                            </li>
+{% endblock %}
+{% endblock %}
+
+
+{% block report %}
+<div class="reportdata" id="reportdata" data-name="{{ report_name }}" data-url="{% url 'performancecomparison-report' %}" data-reportname="performancecomparison">
+
+</div>
+{% endblock %}

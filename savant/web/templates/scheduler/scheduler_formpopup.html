@@ -1,0 +1,209 @@
+
+{# This popup template is used for both regular email sending and scheduling #}
+
+<div class="modal fade" id="mdlEmailReport" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title email-setup">Send Report by Email</h4>
+                <h4 class="modal-title schedule-setup">Schedule Sending Report by Email</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        Please fill in the fields below
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <span class="hidden btn btn-primary btn-xs" data-toggle="click" title="Date Formats" data-content="%d - Day<br> %j - Day of the month without leading zeros " data-placement="bottom" data-html="true">Date formats ?</span>
+                    </div>
+                </div>
+                <br/>
+                {% block editwarn %}{% endblock%}
+                <ul class="nav nav-tabs schedule-setup hidden">
+                    <li role="presentation" class="active"><a href="#" data-target="emailinfo"><span class="glyphicon glyphicon-envelope"></span> Email Info</a></li>
+                    <li role="presentation"><a href="#" data-target="scheduleinfo"><span class="glyphicon glyphicon-calendar"></span> Schedule Info</a></li>
+                </ul>
+                <br class="schedule-setup"/>
+                <div class="form-horizontal emailinfo">
+                    <div class="form-group">
+                        <label for="emailto" class="col-sm-2 control-label">TO:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon">@</span>
+                                <input type="email" class="form-control" id="emailto" placeholder="List of emails" value="{% block emailto %}{{ user.email|default:'' }}{% endblock %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailcc" class="col-sm-2 control-label">CC:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon">@</span>
+                                <input type="email" class="form-control" id="emailcc" placeholder="List of emails" value="{% block emailcc %}{% endblock %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailbcc" class="col-sm-2 control-label">BCC:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon">@</span>
+                                <input type="email" class="form-control" id="emailbcc" placeholder="List of emails" value="{% block emailbcc %}{% endblock %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div id='emailSubjectGroup' class="form-group">
+                        <label for="emailsubject" class="col-sm-2 control-label">Subject:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <input type="text" class="form-control" id="emailsubject" placeholder="" value="{% block emailsubject %}{{ report_name }} Report from %Y/%m/%d %H:%M{% endblock %}">
+                            </div>
+                            <span
+                                type='text'
+                                class="help-block"
+                                data-date-format-example-for='emailsubject'
+                                data-date-format-example-error-class='has-error'
+                                data-date-format-example-error-target='emailSubjectGroup'>
+                            </span>
+                        </div>
+                    </div>
+                    <div id='emailBodyGroup' class="form-group">
+                        <label for="emailbody" class="col-sm-2 control-label">Message:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <textarea class="form-control" id="emailbody" rows="5">{% block emailbody %}Here is the {{ report_name }} Report, created at %Y/%m/%d{% endblock %}</textarea>
+                            </div>
+                            <span
+                                type='text'
+                                class="help-block"
+                                data-date-format-example-for='emailbody'
+                                data-date-format-example-error-class='has-error'
+                                data-date-format-example-error-target='emailBodyGroup'>
+                            </span>
+                        </div>
+                    </div>
+                    {% include 'reports/strftime_info.html' %}
+                </div>
+                <div class="row emailinfo">
+                    <div class="col-md-3 col-xs-12"><div class="checkbox"><label>Report format:</label></div></div>
+                    {% for eformat in export_formats %}
+                    <div class="col-md-2 col-xs-12">
+                        <div class="checkbox"><label>
+                            <input type="checkbox"
+                                class="emailexport_type"
+                                data-format="{{ eformat }}"
+                                {% block rptformat_checked %}{% endblock %}
+                            > {{ eformat.upper }}</label></div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+                <div class="form-horizontal schedule-setup scheduleinfo"
+                    id="scheduleinfo_data"
+                    data-taskposturl="{% block posturl %}{% url 'scheduler_task_add' %}{% endblock %}"
+                    data-reportid="{{ report_id }}"
+                    data-scheduleid="{% block scheduleid %}{% endblock %}"
+                >
+                    <div class="well well-info text-info">
+                        Day Offset is a negative value. It is used to generate reports being sent regularly to setup a date (date range). You setup a day to receive reports and report get generated for the date [day offset] days ago.
+                    </div>
+                    <div class="form-group">
+                        <label for="dayoffset" class="col-sm-3 control-label">Day Offset:</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-minus"></span></span>
+                                <input type="number" max="999" min="0" pattern="[0-9]{1,3}" class="form-control" id="dayoffset" placeholder="Day Offset" value="{% block dayoffset %}0{% endblock %}">
+                            </div>
+                        </div>
+                        <div class="col-sm-5">&nbsp;</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstday" class="col-sm-3 control-label">First day:</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input type="text" id="firstday" name="firstday" class="form-control" value="{% block firstday %}{% now 'm/d/Y' %}{% endblock %}"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">&nbsp;</div>
+                    </div>
+                    <div class="form-group deliveryhour">
+                        <label for="deliveryhour" class="col-sm-3 control-label">Delivery Hour:</label>
+                        <div class="col-sm-2">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                <select id="deliveryhour" name="deliveryhour" class="form-control">
+                                    {% for hh in ''|center:24 %}
+                                    {% with hourloop=forloop.counter0 %}
+                                    <option value="{{ hourloop }}"
+                                    {% block deliveryhour_clause %}{% if hourloop == 12 %}selected{% endif %}{% endblock %}
+                                        >{{ hourloop|stringformat:"02d" }}</option>
+                                    {% endwith %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <select id="deliveryhourmin" name="deliveryhourmin" class="form-control">
+                                {% for hourminloop in hour_min_avail %}
+                                <option value="{{ hourminloop }}" {% block deliveryhourmin_clause %}{% if hourminloop == 12 %}selected{% endif %}{% endblock %}>:{{ hourminloop|stringformat:"02d" }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <label for="deliveryhour" class="col-sm-5 control-label-jleft"><b>GST</b> timezone</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="schperiod" class="col-sm-3 control-label">Period:</label>
+                        <div class="col-sm-9">
+                            <div class="btn-group sch-period" data-toggle="buttons">
+                                {% for dptkey, dptname in delivery_period_types %}
+                                <label class="btn btn-default {% block dpt_checked_class %}{% if dptkey == 'weekly' %}active{% endif %}{% endblock %}">
+                                    <input type="radio"
+                                        name="schperiod"
+                                        data-period="{{ dptkey }}"
+                                        autocomplete="off"
+                                        {% block dpt_checked %}{% if dptkey == 'weekly' %}checked="checked" class="active"{% endif %}{% endblock %}
+                                    > {{ dptname }}
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group sch-period-details sch-period-daily {% block dpt_hidden %}hidden{% endblock %}">
+                        <label for="schperioddaily" class="col-sm-3 control-label">Choose days:</label>
+                        <div class="col-sm-9">
+                            <div class="btn-group" data-toggle="buttons">
+                                {% for wd, wdname in weekdays %}
+                                <label class="btn btn-default {% block dailypt_checked_class %}{% endblock %}">
+                                    <input type="checkbox"
+                                        name="schperioddaily"
+                                        class="schperioddaily"
+                                        data-day="{{ wd }}"
+                                        autocomplete="off"
+                                        {% block dailypt_checked %}{% endblock %}
+                                    > {{ wdname }}
+                                </label>
+                                {% endfor %}
+                            </div>
+                            <br/>
+                            <small>If not set - will be sent <b>every day</b></small>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                {% block deletebtn %}{% endblock %}
+                <button type="button" data-dismiss="modal" class="btn btn-success emailreportschedule schedule-setup"><span class="glyphicon glyphicon-time"></span> Save Scheduled Task</button>
+                <button type="button" data-dismiss="modal" class="btn btn-success emailreportsend email-setup"><span class="glyphicon glyphicon-envelope"></span> Send</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

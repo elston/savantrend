@@ -1,0 +1,32 @@
+{% extends 'web/base.html' %}
+
+{% block title %} {{ request.user.username }} {% endblock %}
+
+{% block menu_2 %} class="active" {% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <div class="reports">
+    {% for report in reports %}
+        <div class="container">
+            <ul>
+                <h4>Report</h4>
+                <li>CHAIN_ID: {{ report.chain_id }}</li>
+                <li>CHAIN: {{ report.chain_name }}</li>
+                <li>SITE_ID: {{ report.site_id }}</li>
+                <li>SITE: {{ report.site_name }}</li>
+                <li>ZONE_ID: {{ report.zone_id }}</li>
+                <li>ZONE: {{ report.zone_name }}</li>
+                <li>DAY: {{ report.day }}</li>
+                <li>DATETIME: {{ report.datetime }}</li>
+                <li>IN: {{ report.visitors_in }}</li>
+                <li>OUT: {{ report.visitors_out }}</li>
+                <li>OCCUPANCY: {{ report.occupancy }}</li>
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

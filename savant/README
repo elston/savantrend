@@ -1,0 +1,277 @@
+!!! There was a some bug with coreheaders on Django 1.9, but in Django 1.9.2 bug is fixed.
+
+!!! The main thing to remember, client's chain_id, site_id and zone_id are in csv only.
+!!! As soon as they are inserted to system, in all other places system uses real primary keys
+    and saves client's chain_id, site_id, zone_id as integers, but do not uses them.
+    System uses them only to compare on the next csv upload and map client's ids to real primary keys ids. 
+    So, everywhere in the system there are only auto-created primary keys.
+
+
+In Django Admin -> Setting you must have:
+
+code: warning_email
+value: your email
+info: Admin email for receiving warning messages.
+type: str
+
+---
+
+settings/base.py
+
+IS_SERVER = True  # set for server
+IS_SERVER = False # set for local machine
+
+Local machine doesn't have celery and redis, so on local machine 
+you may want to comment following lines in admin.py:
+
+@admin.register(ClientManagement)
+@admin.register(Emailer)
+
+So, client won't see ClientManagement and Email reports.
+If you want local machine to act like server, set IS_SERVER = True and 
+install and setup celery and redis. Then local machine will behave exactly like server.
+
+---
+
+How to start with PostgreSQL?
+
+In settings/base.py  set your PostgreSQL credentials:
+
+DB_NAME = ''
+DB_USER = ''
+DB_PASSWORD = ''
+
+1) Remove following block in settings/development.py and settings/production.py
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': join(BASE_DIR, 'savant/savant/db.sqlite3'),
+    }
+}
+
+2) Remove all migrations (delete migrations folder).
+
+3) python manage.py makemigrations
+   python manage.py makemigrations web
+   python manage.py migrate
+
+Django project starts to work with PostgreSQL.
+
+You may also want to run generator to fill warning periods and trial periods.
+python generator.py 
+
+or input them via django admin.
+
+---
+
+Dependency of admin and custom filters.
+
+When installing project from scratch, admin has dependency on exististing models,
+but when we have new system, these models hasn't been created yet.
+
+Solution:
+
+1) comment in settings/base.py following line: # 'django.contrib.admin',
+
+python manage.py makemigrations
+python manage.py makemigrations web
+python manage.py migrate
+
+2) uncomment this line and do the same:
+
+python manage.py makemigrations
+python manage.py migrate
+
+so, in first step we create everything except admin and in the second step we create admin.
+
+---
+
+My steps to setup PostgreSQL on local development server.
+
+All commands were made from active virtual environment.
+But if you do not use virtual environment for project, probably just run from Python3.
+(actually I do not know how it happens on Windows.)
+
+1) Removed db.sqlite3 and migrations folder.
+2) In settings/development.py removed:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': join(BASE_DIR, 'savant/savant/db.sqlite3'),
+    }
+}
+
+3) In postgreSQL created clean database: savant, user: usavant and password: 999
+4) Saved this credentials in settings/base.py
+
+DB_NAME = 'savant'
+DB_USER = 'usavant'
+DB_PASSWORD = '999'
+
+5) Commented line "'django.contrib.admin'," in settings/base.py
+6) 
+
+python manage.py makemigrations
+python manage.py makemigrations web
+python manage.py migrate
+
+7) uncommented line "'django.contrib.admin'," in settings/base.py
+
+python manage.py makemigrations
+python manage.py migrate
+
+8) Run generator: 
+
+python generator.py
+
+Done!
+
+---
+
+How emails working?
+
+It is bad practice to send emails directly. So, all emails before sending are inserted 
+to database (model "Emailer" - "Emails" in admin), then celery look through "Emailer" and send emails that 
+haven't been sent yet. 
+
+Celery may send emails by signal (immediately after insertion) or by celery cron (for example once a minute).
+
+You can see in admin all emails that were sent by Django project.
+All rows that are older than 2 weeks automatically will be removed from "Emailer".
+
+The email sender setup is in settings/base.py -> DEFAULT_FROM_EMAIL
+
+---
+
+How activate / deactivate client?
+
+You can do it with checkbox "active" that you'll find on "Client management" and on "Edit User" page. 
+
+There is ONLY ONE DEPENDENCY between activating and trial periods.
+If client has expired trial, it will be deactivated automatically.
+IN ALL OTHER CASES YOU MAY ACTIVATE / DEACTIVATE ANY CLIENT WHEVER YOU WANT AND IT WORKS INDEPENDENTLY.
+
+--- 
+
+How client management works?
+
+First, you need to set trial period.
+As soon as trial period has been set, client account has "end_date" of the service.
+"end_date" is the main setting in calculating and processing "Client management".
+
+Accordingly to "end_date" client starts to receive warning messages.
+Warning periods are set in WarningPeriod model.
+
+Celery every hour (you can change this period in tasks.py) looks for all clients that have "end_date", 
+check with current date and send warnings to clients accordingly to Warning Periods.
+
+When client account expires (today date is more than end_date) client account automatically deactivated.
+(set active=False)
+
+If you want to activate client account again, set new trial period (or clear old trial period) and check 
+"active" checkbox. 
+
+---
+
+How to run celery?
+
+celery worker -A savant -l info -B
+
+info:    means logging level.
+-B:      means run cron (periodic tasks)
+savant:  name of project
+
+Celery works independently.
+Your project creates tasks for celery and celery runs them.
+
+Redis is used as fast storage for celery.
+
+---
+
+Understanding mapping between client's chain_id, site_id, zone_id and real primary keys on Example.
+
+The example is for chains, but sites and zones exactly the same.
+
+Client in csv have it's own ids.
+
+Example:
+
+client1 (id=1)
+
+chain_id | chain_name
+1          Kuwait
+2          UAE
+
+client2 (id=2)
+
+chain_id | chain_name
+1          Kuwait
+2          Quatar
+
+Chain model in Django
+id | name | client_id | chain_id
+
+where id -       is real primary key
+where chain_id - is client's id
+
+Example:
+id | name    | client_id | chain_id
+1  | Kuwait  | 1         | 1
+2  | UAE     | 1         | 2
+3  | Kuwait  | 2         | 1
+4  | Quatar  | 2         | 2
+
+
+In Django all relations are made with primary keys.
+So, in scheduler I created mapping from client's id to real primary key.
+And to Report inserted not client's ids, but real primary keys.
+
+So, to Report as chain ids will be inserted 1, 2, 3, 4 and not 1, 2, 1, 2
+It is the right approach.
+The previous was wrong.
+
+The speed of scheduler is the same.
+
+!!! The main thing to remember, client's chain_id, site_id and zone_id are in csv only.
+!!! As soon as they are inserted to system, in all other places system uses real primary keys
+    and duplicates client's chain_id, site_id, zone_id as integers, but do not uses them.
+    System uses them only to compare on the next csv upload and map client's ids to real primary keys ids. 
+
+---
+
+Working with API.
+
+/api/ - is url for getting Reports by API
+
+/api/test/ - page for testing API
+
+in views.py ReportAPI there is a block:
+
+@method_decorator(login_required)
+def dispatch(self, *args, **kwargs):
+    return super().dispatch(*args, **kwargs)
+
+If you have this block - only authenticated users may request API.
+
+But you need to test API with your HTML templates.
+
+Comment this block and authentication is not required.
+But you need to set user id in url parameter.
+
+So, in your HTML template you should set as API url something like that:
+
+http://localhost:8000/api/?user=100&other_params_if_you_need_them
+
+   
+---
+
+Upgrade to Django 1.9 dependency.
+
+static/admin/jscustom/custom_add.js
+
+
+
+
+

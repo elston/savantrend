@@ -1,0 +1,25 @@
+{% extends 'reports/pdf/base_pdf.html' %}
+{% load report_tags %}
+
+{% block addstyle %}
+{% endblock %}
+
+{% block kpisummary %}{% endblock %}
+
+{% block content %}
+
+<table class="table table-bordered executive keeptogether" id="table1"><tbody>
+<tr>
+{% for kpiname, kpi in report.kpi.items %}
+{% if kpi.enabled %}
+{% if not forloop.first and forloop.counter0|divisibleby:4 %}</tr><tr>{% endif %}
+<td class="odd {{ kpi.css }}"  data-ind="{{ forloop.counter }}"><span class="badge kind indkpi">{{ forloop.counter }}</span><br/><br class="br1"/>{{ kpi.fullname }}<br/><span class="mval">{{ kpi.sum|formatkpi:kpi.format }}</span><br/></td>
+{% endif %}
+{% endfor %}
+</tr>
+</tbody></table>
+
+{% endblock %}
+
+{% block charts %}
+{% endblock %}

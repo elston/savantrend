@@ -1,0 +1,25 @@
+{% extends "django_admin_bootstrapped:admin/login.html" %}
+{% load staticfiles %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style type="text/css">
+
+.form-signin-inner h2 {
+    visibility: hidden;
+}
+.form-signin-inner h2:after {
+    content: "Control Panel Login";
+    visibility: visible;
+    display: block;
+    position: relative;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<p class="lead text-center">
+    <img src="{% static 'web/img/login_logo.png' %}" class="nav-img img-rounded" id="brandimg">
+</p>
+{{ block.super }}
+{% endblock %}

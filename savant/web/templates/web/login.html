@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="{% static 'web/img/favicon.png' %}"> -->
+
+    <title>{{ company }}</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/login.css' %}"/>
+
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="inner cover">
+            <!-- <h1 class="cover-heading">{{ company }}</h1> -->
+            <p class="lead">
+            <form class="form-signin" id="login_form" method="post" action="/login/">
+            {% csrf_token %}
+              <h4 class="form-signin-heading">Please sign in</h4>
+              <label for="inputEmail" class="sr-only">username</label>
+              <input class="form-control" name="username" placeholder="User Name"  required autofocus>
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="remember-me"> Remember me
+                </label>
+              </div>
+              <button class="btn btn-primary btn-block signinbtn" type="submit">Sign in</button>
+            </form>
+            </p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Copyright {% now 'Y' %} © {{ company }} LLC</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <script src="{% static 'web/js/jquery.min.js' %}"></script>
+    <script src="{% static 'web/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

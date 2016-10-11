@@ -1,0 +1,10 @@
+{% extends 'reports/base_reports.html' %}
+
+{% block reportmenuitems %}
+{% block rmi_select_chain %}{{ block.super }}{% endblock %}
+{% block rmi_select_site %}{{ block.super }}{% endblock %}
+{% block rmi_select_zone %}{{ block.super }}{% endblock %}
+{% block rmi_select_kpi %}{{ block.super }}{% endblock %}
+{% block rmi_select_daterange %}{{ block.super }}{% endblock %}
+{% block rmi_select_hour %}{{ block.super }}{% endblock %}
+{% endblock %}

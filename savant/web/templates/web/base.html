@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% load report_tags %}
+
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/signin.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/main.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/bootstrap-datepicker.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/sb-admin-2.css' %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} {{ userdata.sitename }} {% endblock %}</title>
+    <link href="{% static 'web/css/select2.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'web/css/styles.css' %}" rel="stylesheet"/>
+    {% block extracss %}{% endblock %}
+
+    <style type="text/css">
+        body {
+            font-family: 'Roboto', sans-serif;
+            {% if not is_dashboard %}
+            background-color: {{ userdata.background }};
+            {% else %}
+            background-color: {{ userdata.dbbackground }};
+            {% endif %}
+        }
+        .sitenavbar {
+            background-color: {{ userdata.navbarbg  }} !important;
+        }
+        .navbar-nav > li.active > a {
+            background-color: {{ userdata.navbarbgactive  }} !important;
+        }
+        .navbar-nav > li > a, .navbar-header a {
+            color: {{ userdata.navbarfg }} !important;
+        }
+        .navbar-nav > li.active > a {
+            color: {{ userdata.navbarfgactive }} !important;
+        }
+
+        {% for kpi in all_kpis %}
+        .{{ kpi.css }} {
+            background-color: {{ userdata|getdefdict:kpi.name }};
+        }
+        {% endfor %}
+
+        .reportfilter {
+            font-family: {{ fonts.filters.family }};
+            font-size: {{ fonts.filters.size }}px;
+            font-weight: {{ fonts.filters.weight }};
+            font-style: {{ fonts.filters.style }};
+        }
+        .reportheader {
+            font-family: {{ fonts.reportheader.family }};
+            font-size: {{ fonts.reportheader.size }}px;
+            font-weight: {{ fonts.reportheader.weight }};
+            font-style: {{ fonts.reportheader.style }};
+        }
+        .reportsummary {
+            font-family: {{ fonts.summary.family }};
+            font-size: {{ fonts.summary.size }}px;
+            font-weight: {{ fonts.summary.weight }};
+            font-style: {{ fonts.summary.style }};
+        }
+        .reporttblheaders, .reportdata table th {
+            font-family: {{ fonts.tblheaders.family }};
+            font-size: {{ fonts.tblheaders.size }}px;
+            font-weight: {{ fonts.tblheaders.weight }};
+            font-style: {{ fonts.tblheaders.style }};
+        }
+        .reportothers, .reportdata, .highcharts-title {
+            font-family: {{ fonts.others.family }};
+            font-size: {{ fonts.others.size }}px;
+            font-weight: {{ fonts.others.weight }};
+            font-style: {{ fonts.others.style }};
+        }
+    </style>
+</head>
+
+<body class="">
+
+{# warnings #}
+{% if request.warning %}
+    {% include 'blocks/warning.html' %}
+{% endif %}
+
+
+{% if request.user.is_authenticated %}
+    <nav class="navbar navbar-default navbar-fixed-top sitenavbar">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    {% if request.user.get_logo.name %}
+                    <img src="{{ request.user.get_logo.url }}" class="nav-img img-rounded" id="pagebrandimg">
+                    {% else %}
+                    <img src="{% static 'web/img/logo_default.png' %}" class="nav-img img-rounded" id="pagebrandimg">
+                    {% endif %}
+                    <span>{{ userdata.sitename }}</span>
+                </a>
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <!-- <li{% block home %} {% endblock %}><a href="/">Home</a></li> -->
+                    <li {% block menu_1 %} {% endblock %}><a href="{% url 'dashboard' %}"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Dashboard</a></li>
+                    <li {% block menu_2 %} {% endblock %}><a href="{% url 'reports' %}"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports</a></li>
+                    <li {% block menu_3 %} {% endblock %}><a href="{% url 'scheduler' %}"><span class="glyphicon glyphicon-scale" aria-hidden="true"></span> Scheduler</a></li>
+                    {% if request.user.can_manage_subusers %}
+                        <li {% block manage_access %} {% endblock %}><a href="{% url 'manage_access' %}"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Manage Access</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a><span class="glyphicon glyphicon-education" aria-hidden="true"></span> WELCOME {{ request.user.username }}</a></li>
+                    {% if request.user.can_customize %}
+                    <li {% block menu_settings %} {% endblock %}><a href="{% url 'settings' %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Customize</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endif %}
+
+<div class='container'>
+    <div class='mainbody'>
+        {% block body_block %}{% endblock %}
+    </div>
+</div>
+
+
+<script src="{% static 'web/js/jquery.min.js' %}"></script>
+<script src="{% static 'web/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'web/js/underscore-min.js' %}"></script>
+<script src="{% static 'web/js/select2.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'tem/selectmultiple/bootstrap.multiple.css' %}">
+<script type="text/javascript" src="{% static 'tem/selectmultiple/bootstrap.multiselect.js' %}"></script>
+
+<script src="{% static 'web/js/bootstrap-datepicker.min.js' %}" charset="UTF-8"></script>
+
+{% if request.warning %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#myModal').modal({'backdrop': 'static', 'keyboard': false}).modal('show');
+
+            // get warning button
+            var btn = $('#warningOkButton');
+
+            btn.on('click', function(){
+                // current url
+                var url = window.location.href;
+            
+                // get warning_id
+                var warning_id = btn.attr('rel');
+
+                // construct new url, to mark that warning has been viewed
+                url = url + '?client_viewed_warning=' + warning_id;
+
+                window.location.href = url;
+            });
+        });
+    </script>
+{% endif %}
+
+
+<script type="text/javascript">
+    $('#id_chain').multiselect({
+		includeSelectAllOption: true,
+        onDropdownHide: function (event) {
+
+			$("#id_zone optgroup").remove();
+			$("#id_zone").multiselect( 'refresh' );
+			
+			$('#id_zone optgroup').remove();
+			$("#id_zone").multiselect('deselectAll', false);
+			$("#id_zone").multiselect( 'refresh' );
+            get_new();
+        }
+    });
+	$('#id_site').multiselect({
+		includeSelectAllOption: true,
+        onDropdownHide: function (event) {
+			$('#id_zone optgroup').remove();
+            get_new();
+        }
+    });
+	$('#id_zone').multiselect({
+		includeSelectAllOption: true,
+        onDropdownHide: function (event) {
+            get_new();
+        }
+    });
+
+    $('#id_enabled_kpis').multiselect({
+        includeSelectAllOption: true,
+    });
+
+    $('#id_enabled_reports').multiselect({
+        includeSelectAllOption: true,
+    });
+
+
+</script>
+<script type="text/javascript">
+
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    function get_new() {
+        var inp_date = $('form').serialize();
+        $.post(
+                "{% url 'show_form' %}",
+                inp_date,
+                function (data) {
+                    $('.select2-hidden-accessible').hide();
+                    $('.select2-container').hide();
+                    $('.select2-selection__rendered').hide();
+                    $('.select2-results__options').hide();
+                    $("#profile_form").html(data);
+					
+					
+					$('#id_chain').multiselect({
+						includeSelectAllOption: true,
+						onDropdownHide: function (event) {
+
+							$("#id_site optgroup").remove();
+							$("#id_site").multiselect( 'refresh' );
+
+							$('#id_zone optgroup').remove();
+							$("#id_zone").multiselect( 'refresh' );
+							get_new();
+						}
+					});
+					$('#id_site').multiselect({
+						includeSelectAllOption: true,
+						onDropdownHide: function (event) {
+							$('#id_zone optgroup').remove();
+							$("#id_zone").multiselect( 'refresh' );
+							get_new();
+						}
+					});
+					$('#id_zone').multiselect({
+						includeSelectAllOption: true,
+						onDropdownHide: function (event) {
+							get_new();
+						}
+					});
+					
+                    $('#id_enabled_kpis').multiselect({
+                        includeSelectAllOption: true,
+                    });
+
+                    $('#id_enabled_reports').multiselect({
+                        includeSelectAllOption: true,
+                    });
+
+                    /*$('select').multiselect({
+						includeSelectAllOption: true,
+                        onDropdownHide: function (event) {
+                            get_new();
+                        }
+                    });*/
+                }
+        )
+    }
+
+    $('.input-daterange').datepicker({autoclose: true, format: "yyyy-mm-dd"});
+
+
+</script>
+{% block extrascript %}
+{% endblock %}
+</body>
+
+<footer>
+    <div class="container">
+        <p></p>
+    </div>
+</footer>
+</html>

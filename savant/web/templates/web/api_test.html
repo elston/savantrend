@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"> 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<style>
+    body{color:#333;margin-left:50px;}
+    table{margin:20px;}
+    table td {padding:5px;border:1px solid #ccc;}
+    div.left{float:left;width:20%;}
+    div.right{float:left;width:70%;}
+    div.right input{width:500px;display:inline-block;margin-top:5px;}
+    div.right label{display: inline-block;}
+    div.right button{margin-top:5px;margin-right:10px;}
+    .clear{clear:both;}
+</style>
+</head>
+
+<body>
+
+<div class="left">
+    <h3>Data about client</h3>
+
+    <table>
+        <tr>
+            <td>username</td>
+            <td>{{ user.username }} (id={{ user.id }})</td>
+        </tr>
+
+        <tr>
+            <td>Chains</td>
+            <td>{{ chains }}</td>
+        </tr>
+
+        <tr>
+            <td>Sites</td>
+            <td>{{ sites }}</td>
+        </tr>
+
+        <tr>
+            <td>Zones</td>
+            <td>{{ zones }}</td>
+        </tr>
+
+        <tr>
+            <td>Total reports</td>
+            <td>{{ total_reports }}</td>
+        </tr>
+    </table>
+
+</div>
+
+
+<div id="values" class="right">
+    <h3>Test API</h3>
+
+    <input type="text" name="chain" placeholder="chain: comma separated, example: 1,2,3">
+    <label>chain</label><br />
+
+    <input type="text" name="site" placeholder="site: comma separated, example: 1,2,3">
+    <label>site</label><br />
+    
+    <input type="text" name="zone" placeholder="zone: comma separated, example: 1,2,3">
+    <label>zone</label><br />
+
+    <input type="text" name="start" placeholder="start: datetime, examples: 2013-09-20 13:00:00 or 2013-09-20 13:00 or 2013-09-20">
+    <label>start</label><br />
+    
+    <input type="text" name="end" placeholder="end: datetime, examples: 2013-09-20 13:00:00 or 2013-09-20 13:00 or 2013-09-20">
+    <label>end</label><br />
+
+    <input type="text" name="num_page" placeholder="num_page: 1 by default">
+    <label>num_page</label><br />
+
+    <input type="text" name="per_page" placeholder="per_page: 100 by default">
+    <label>per_page</label><br />
+
+    <button id="btnOpen">Open in new window</button>
+    <button id="btnStart">Start test here</button>
+    
+</div>
+<div class="clear"></div>
+
+
+<div id="result_url"></div>
+<div id="result"></div>
+
+
+
+<script type="text/javascript">
+
+    $('#btnOpen').on('click', function(){
+        var url = getUrl();
+        var win = window.open(url, '_blank');
+        win.focus();
+    });
+
+    $('#btnStart').on('click', function(){
+        var url = getUrl();
+        var items = [];
+        $('#result').html('');
+        $('#result_url').html('');
+
+        items.push('<table>');
+        items.push('<tr>');
+        items.push('<td>num</td>');
+        items.push('<td>Id</td>');
+        items.push('<td>Chain_Id</td>');
+        items.push('<td>Chain_Name</td>');
+        items.push('<td>Site_Id</td>');
+        items.push('<td>Site_Name</td>');
+        items.push('<td>Zone_Id</td>');
+        items.push('<td>Zone_Name</td>');
+        items.push('<td>Date_Time</td>');
+        items.push('<td>Associates</td>');
+        items.push('<td>Items</td>');
+        items.push('<td>Sales</td>');
+        items.push('<td>Transactions</td>');
+        items.push('<td>Visitors_In</td>');
+        items.push('<td>Visitors_Out</td>');
+        items.push('</tr>');
+
+        $.getJSON(url, function(data){
+            if (data.length == 0){
+                $('#result').html('Nothing found.');
+                $('#result_url').html('');
+                return;
+            }
+
+            var num = 0;
+            $.each(data, function(i, obj){
+                num += 1;
+                items.push('<tr>');
+                
+                items.push('<td>' + num + '</td>');
+                items.push('<td>' + obj.id + '</td>');
+                items.push('<td>' + obj.Chain_Id + '</td>');
+                items.push('<td>' + obj.Chain_Name + '</td>');
+                items.push('<td>' + obj.Site_Id + '</td>');
+                items.push('<td>' + obj.Site_Name + '</td>');
+                items.push('<td>' + obj.Zone_Id + '</td>');
+                items.push('<td>' + obj.Zone_Name + '</td>');
+                items.push('<td>' + obj.Date_Time + '</td>');
+                items.push('<td>' + obj.Associates + '</td>');
+                items.push('<td>' + obj.Items + '</td>');
+                items.push('<td>' + obj.Sales + '</td>');
+                items.push('<td>' + obj.Transactions + '</td>');
+                items.push('<td>' + obj.Visitors_In + '</td>');
+                items.push('<td>' + obj.Visitors_Out + '</td>');
+                
+                items.push('</tr>')
+            });
+
+            items.push('</table>');
+            var html = items.join('');
+
+            $('#result_url').html(url);
+            $('#result').html(html);
+
+        });
+
+        
+    });
+
+    function getValues(){
+        var values = {};
+        $('div#values :input').each(function() { 
+            values[this.name] = $(this).val(); 
+        });
+        return values;
+    }
+
+    function getUrl(){
+        var values = getValues();
+        var params = $.param(values);
+        var url = '/api/?' + params;        
+        return url;
+    }
+
+
+</script>
+
+
+
+    
+</body>
+</html>

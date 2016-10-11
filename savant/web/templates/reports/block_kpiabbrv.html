@@ -1,0 +1,7 @@
+<div class="row abbrv for-site keeptogether reportothers">
+{% for kpiname, kpi in report.kpi.items %}
+{% if kpi.enabled %}
+<div class="col-md-4 col-sm-6 col-xs-12"><b><span class="abkpi indkpi {% if not export %}hidden{% endif %}">{{ forloop.counter }}-</span>{{ kpi.fullname }}</b> - {{ kpi.description }}</div>
+{% endif %}
+{% endfor %}
+</div>

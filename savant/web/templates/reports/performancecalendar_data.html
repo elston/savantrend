@@ -1,0 +1,140 @@
+{% load report_tags %}
+{% load staticfiles %}
+
+<br/>
+{% include 'reports/block_kpiindicator.html' %}
+<br/>
+
+<div class="row rep">
+
+    <div style="width: 100%; float: left; position: relative; margin-top: 10px">
+        <div id='calendar' class="mcalendar">
+            <div class="row">
+            {% if not export %}
+            <div class="col-md-4 text-left non-printable">
+                <input type="checkbox" id="shkpi" />
+                <label for="shkpi">KPI Identification Number</label>
+            </div>
+            {% endif %}
+            <div class="col-md-4 text-center">
+                <h2>{{ calendar.firstday|date:'F Y' }}</h2>
+            </div>
+            <div class="col-md-4 text-right non-printable">
+                &nbsp;
+            </div>
+            </div>
+            <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="dynatable-head weekn">Week#</th>
+                <th class="dynatable-head mday">Sun</th>
+                <th class="dynatable-head mday">Mon</th>
+                <th class="dynatable-head mday">Tue</th>
+                <th class="dynatable-head mday">Wed</th>
+                <th class="dynatable-head mday">Thu</th>
+                <th class="dynatable-head mday">Fri</th>
+                <th class="dynatable-head mday">Sat</th>
+                <th class="dynatable-head weekt">Week Total</th>
+            </tr></thead>
+            {% for week in calendar.weeks %}
+            <tr>
+                <td class="weekn">{{ forloop.counter0|addint:calendar.firstweek }}</td>
+                {% for day in week %}
+                <td class="mday">
+                <div class="container-fluid">
+                    <div class="row text-right">
+                        <div class="col-md-6 pull-right daynum cm{{ day.curmonth }}">{{ day.day }}</div>
+                    </div>
+                    {% for kpiname, kpi in report.kpi.items %}
+                    {% if kpi.enabled and day.curmonth %}
+                    <div class="row">
+                        <div class="col-md-12 xcol-md-offset-1 kpi-data {{ kpi.css }}" data-ind="{{ forloop.counter }}">
+                        {{ report.data|getdefdict:day.day|getkpi:kpi.id|formatkpi:kpi.format }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                </td>
+                {% endfor %}
+                <td class="weekt">
+                    <div class="container-fluid">
+                    <div class="row text-right">
+                        <div class="col-md-6 pull-right daynum">&nbsp;</div>
+                    </div>
+                    {% with weeknum=forloop.counter0|addint:calendar.firstweek %}
+                    {% for kpiname, kpi in report.kpi.items %}
+                    {% if kpi.enabled %}
+                     <div class="row dlmn">
+                        <div class="col-md-3 col-xs-2 kpi-data {{ kpi.css }}" data-ind="{{ forloop.counter }}">
+                        &nbsp;
+                        </div>
+                        <div class="col-md-9 col-xs-10">
+                            {{ kpi.week|getkpi:weeknum|formatkpi:kpi.format }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr class="bottomrow weekn">
+                <td class="weekn">Day Total</td>
+                {% for wd in calendar.weekdays %}
+                <td class="mday">
+                <div class="container-fluid">
+                    {% for kpiname, kpi in report.kpi.items %}
+                    {% if kpi.enabled %}
+                     <div class="row">
+                        <div class="col-md-3 col-xs-2 kpi-data {{ kpi.css }}" data-ind="{{ forloop.counter }}">
+                        &nbsp;
+                        </div>
+                        <div class="col-md-9 col-xs-10">
+                            {{ kpi.weekday|getdefdict:wd|formatkpi:kpi.format }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    </div>
+                </td>
+                {% endfor %}
+                <td class="weekt">
+                <div class="container-fluid">
+                    {% for kpiname, kpi in report.kpi.items %}
+                    {% if kpi.enabled %}
+                     <div class="row">
+                        <div class="col-md-3 col-xs-2 kpi-data {{ kpi.css }}" data-ind="{{ forloop.counter }}">
+                        &nbsp;
+                        </div>
+                        <div class="col-md-9 col-xs-10">
+                            {{ kpi.sum|formatkpi:kpi.format }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    </div>
+                </td>
+            </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<br />
+<br />
+<div class="row ">
+    <div id="chart1" class="col-xs-12 col-sm-4 reportchart" style="height: 30%;"></div>
+    <div id="chart2" class="col-xs-12 col-sm-4 reportchart" style="height: 30%;"></div>
+    <div id="chart3" class="col-xs-12 col-sm-4 reportchart" style="height: 30%;"></div>
+</div>
+<br />
+<br />
+<div class="hidden" id="chart1data">{{ report.chart1data }}</div>
+<div class="hidden" id="chart2data">{{ report.chart2data }}</div>
+<div class="hidden" id="chart3data">{{ report.chart3data }}</div>
+
+
+{% include 'reports/block_kpiabbrv.html' %}

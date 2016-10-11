@@ -1,0 +1,67 @@
+{% extends 'web/base.html' %}
+{% load profile_extras %}
+{% block title %} Manage Access {% endblock %}
+
+{% block manage_access %} class="active" {% endblock %}
+
+{% block body_block %}
+
+<div class="user-list">
+    <div class="container">
+
+    <br>
+
+        <a href="{% url 'add_user' %}">+ Create new user</a> | 
+        <a href="{% url 'change_own_profile' user.id %}">Edit profile</a>
+
+    <br>
+    <br>
+
+        <table class="table table-hover">
+            <tr>
+                <th>Username</th>
+                <th>{{ userdata.label1 }}</th>
+                <th>{{ userdata.label2 }}</th>
+                <th>{{ userdata.label3 }}</th>
+                <th>Actions</th>
+            </tr>
+
+{% for user in users %}
+
+<tr>
+    <td><a href="{% url 'change_user' user.id %}">{{ user.username }}</a></td>
+    <td>{% for chain in user.chain.all %}<a href="{% url 'change_chain' chain.id %}">{{ chain.name }}</a>{% if not forloop.last %},{% endif %} {% endfor %}</td>
+	
+    <td>
+		{% for chain in user.chain.all %}
+			<b>:: {{ chain }} ::</b><br/>
+			{% for site in user.site.all|in_chain:chain %}
+				<a href="{% url 'change_site' site.id %}">{{ site.name }}</a><br/>
+			{% endfor %}
+		{% endfor %}
+	</td>
+		
+    <td>
+	
+		{% for chain in user.chain.all %}
+			{% for site in user.site.all|in_chain:chain %}
+				<b>:: {{ chain }} :: {{ site }} </b><br/>
+				{% for zone in user.zone.all|in_site:site %}
+					<a href="{% url 'change_zone' zone.id %}">{{ zone.name }}</a><br/>
+				{% endfor %}
+			{% endfor %}
+		{% endfor %}
+	
+	</td>
+	
+    <td><a href="{{ user.get_change_url }}">Change</a> | <a href="{% url 'confirm_delete_user' user.id %}">Delete</a></td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+    </div>
+</div>
+
+{% endblock %}

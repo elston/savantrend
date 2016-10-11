@@ -1,0 +1,105 @@
+{% load report_tags %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="pdfkit-margin-top" content="0.3in"/>
+    <meta name="pdfkit-margin-right" content="0.3in"/>
+    <meta name="pdfkit-margin-bottom" content="0.3in"/>
+    <meta name="pdfkit-margin-left" content="0.3in"/>
+    <meta name="pdfkit-encoding" content="UTF-8"/>
+    <meta name="pdfkit-no-print-media-type" content=""/>
+    <meta name="pdfkit-background" content=""/>
+    <meta name="pdfkit-orientation" content="{% block pdforientation %}Portrait{% endblock %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        {% for kpiname, kpi in report.kpi.items %}
+        .{{ kpi.css  }} {
+            background-color: {{ settings_raw|getdefdict:kpi.name }} !important;
+        }
+        {% endfor %}
+
+        .keeptogether { page-break-inside: avoid !important; }
+        tr, td { page-break-inside: avoid; }
+        
+        .newpage { page-break-before: always !important; }
+        .indkpi {
+            {% if not showkpiid %}display: none !important;{% endif %}
+        }
+        .reportfilter {
+            font-family: {{ fonts.filters.family }};
+            font-size: {{ fonts.filters.size }}px;
+            font-weight: {{ fonts.filters.weight }};
+            font-style: {{ fonts.filters.style }};
+        }
+        .reportheader {
+            font-family: {{ fonts.reportheader.family }};
+            font-size: {{ fonts.reportheader.size }}px;
+            font-weight: {{ fonts.reportheader.weight }};
+            font-style: {{ fonts.reportheader.style }};
+        }
+        .reportsummary {
+            font-family: {{ fonts.summary.family }};
+            font-size: {{ fonts.summary.size }}px;
+            font-weight: {{ fonts.summary.weight }};
+            font-style: {{ fonts.summary.style }};
+        }
+        .reporttblheaders, .reportdata table th {
+            font-family: {{ fonts.tblheaders.family }};
+            font-size: {{ fonts.tblheaders.size }}px;
+            font-weight: {{ fonts.tblheaders.weight }};
+            font-style: {{ fonts.tblheaders.style }};
+        }
+        .reportothers, .reportdata, .highcharts-title {
+            font-family: {{ fonts.others.family }};
+            font-size: {{ fonts.others.size }}px;
+            font-weight: {{ fonts.others.weight }};
+            font-style: {{ fonts.others.style }};
+        }
+    {% block addstyle %}
+    {% endblock %}
+    </style>
+</head>
+<body class="pdf">
+<p class="newpage reportothers">
+{% block pdftitle %}
+{% include 'reports/pdf/titlepage.html' %}
+{% endblock %}
+
+{% block header %}
+{% include 'reports/pdf/block_showsources.html' %}
+{% endblock %}
+
+{% block kpiabbrv %}
+{% include 'reports/block_kpiabbrv.html' %}
+{% endblock %}
+</p>
+
+<p class="newpage reportothers">
+{% block kpisummary %}
+{% include 'reports/block_kpiindicator.html' %}
+{% endblock %}
+</p>
+
+<p class="newpage reportothers reportdata">
+{% block content %}
+<h1>TBD</h1>
+{% endblock %}
+</p>
+
+{% block charts %}
+{% for chartfile in chartfiles %}
+<p class="newpage reportothers">
+<div class="row text-center">
+<div class="col-md-12 col-xs-12 keeptogether">
+<img class='newpage keeptogether' src="{{ chartfile }}" style="max-width: 100%; margin: 0 auto; height: auto; display: block">
+</div>
+</div>
+</p>
+{% endfor %}
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% load report_tags %}
+
+<div class="row indicator for-site keeptogether reportothers">
+{% for kpiname, kpi in report.kpi.items %}
+    {% if kpi.enabled %}
+    <div data-ind="{{ forloop.counter }}" class="col-md-1 col-sm-3 col-xs-3 bdr {{ kpi.css }}">
+    {% if export %}<span class="badge kind indkpi">{{ forloop.counter }}</span>{% endif %}
+    <br/>{{ kpi.fullname }}<br/>{{ kpi.sum|formatkpi:kpi.format }}</div>
+    {% endif %}
+{% endfor %}
+</div>

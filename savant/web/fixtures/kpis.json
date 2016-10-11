@@ -1,0 +1,110 @@
+[
+{
+    "fields": {
+        "displayname": "VISITORS",
+        "name": "FOOTFALL",
+        "color": "#ADD9FE"
+    },
+    "model": "web.kpi",
+    "pk": 1
+},
+{
+    "fields": {
+        "displayname": "SALES",
+        "name": "SALES",
+        "color": "#FFCCFF"
+    },
+    "model": "web.kpi",
+    "pk": 2
+},
+{
+    "fields": {
+        "displayname": "TRANSACTION",
+        "name": "TRANS",
+        "color": "#529A86"
+    },
+    "model": "web.kpi",
+    "pk": 3
+},
+{
+    "fields": {
+        "displayname": "UNITS",
+        "name": "UNITS",
+        "color": "#B39EB5"
+    },
+    "model": "web.kpi",
+    "pk": 4
+},
+{
+    "fields": {
+        "displayname": "STAFF",
+        "name": "STAFF",
+        "color": "#F7BB80"
+    },
+    "model": "web.kpi",
+    "pk": 5
+},
+{
+    "fields": {
+        "displayname": "PERCENTAGE CONVERSION",
+        "name": "%CONV",
+        "color": "#77DD77"
+    },
+    "model": "web.kpi",
+    "pk": 6
+},
+{
+    "fields": {
+        "displayname": "AVERAGE TRANSACTION VALUE(AVERAGE SALES)",
+        "name": "ATV",
+        "color": "#CFCFC4"
+    },
+    "model": "web.kpi",
+    "pk": 7
+},
+{
+    "fields": {
+        "displayname": "UNITS PER TRANSACTION(AVERAGE BASKET SIZE)",
+        "name": "UPT",
+        "color": "#FF6961"
+    },
+    "model": "web.kpi",
+    "pk": 8
+},
+{
+    "fields": {
+        "displayname": "AVERAGE CUSTOMER VALUE(SALES PER SHOPPER)",
+        "name": "ACV",
+        "color": "#FDFD96"
+    },
+    "model": "web.kpi",
+    "pk": 9
+},
+{
+    "fields": {
+        "displayname": "CUSTOMER TO STAFF RATIO(SHOPPER TO ASSOCIATE RATIO)",
+        "name": "CTSR",
+        "color": "#C4CAFF"
+    },
+    "model": "web.kpi",
+    "pk": 10
+},
+{
+    "fields": {
+        "displayname": "UNITS PER CUSTOMER",
+        "name": "UPC",
+        "color": "#C4D99C"
+    },
+    "model": "web.kpi",
+    "pk": 11
+},
+{
+    "fields": {
+        "displayname": "SALES PER STAFF",
+        "name": "SPS",
+        "color": "#DEFFE9"
+    },
+    "model": "web.kpi",
+    "pk": 12
+}
+]

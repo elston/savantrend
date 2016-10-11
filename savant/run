@@ -1,0 +1,26 @@
+#!/bin/bash
+
+cd /home/vlad/dev/web/dj/s/savant/project/savant/
+
+. ~/.venvs/savant/bin/activate
+
+if [ "$1" == "init" ]
+then
+python manage.py makemigrations
+python manage.py makemigrations web
+python manage.py migrate
+
+python manage.py createsuperuser
+elif [ "$1" == "migr" ]
+then
+python manage.py makemigrations
+python manage.py migrate
+elif [ "$1" == "celery" ]
+then
+celery worker -A savant -l info -B
+elif [ "$1" == "test" ]
+then
+py.test
+else
+python manage.py runserver localhost:8000
+fi

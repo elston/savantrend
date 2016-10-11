@@ -1,0 +1,90 @@
+{% extends 'web/base.html' %}
+
+{% block title %} Show reports{% endblock %}
+
+{% block menu_2 %} class="active" {% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <h2>Reports </h2>
+
+        <form class="form-inline">
+            <div class="form-group col-md-2">
+                {{ form.chain }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form.site }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form.zone }}
+            </div>
+            <div class="form-group col-md-3">
+                <div class="input-daterange input-group" id="datepicker">
+                    {{ form.start }}
+                    <span class="input-group-addon">to</span>
+                    {{ form.end }}
+                </div>
+            </div>
+            <div class="form-group col-md-1">
+            <button type="submit" class="btn btn-sm">Send</button>
+                </div>
+        </form>
+
+
+        <table id="dt">
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Chain_Name</th>
+                <th>Site_Name</th>
+                <th>Zone_Name</th>
+                <th>Date</th>
+                <th>In</th>
+                <th>Out</th>
+                <th>Sales</th>
+                <th>Transactions</th>
+                <th>Associates</th>
+                <th>Items</th>
+            </tr>
+            </thead>
+            {% for r in reports %}
+                <tr>
+                    <td>{{ r.DATETIME|date:"h A" }}</td>
+                    <td>{{ r.CHAIN }}</td>
+                    <td>{{ r.SITE }}</td>
+                    <td>{{ r.ZONE }}</td>
+                    <td>{{ r.DATETIME|date:"Y-m-d" }}</td>
+                    <td>{{ r.VISITORS_IN }}</td>
+                    <td>{{ r.VISITORS_OUT }}</td>
+
+                    <td>{{ r.SALES }}</td>
+                    <td>{{ r.TRANSACTIONS }}</td>
+                    <td>{{ r.ASSOCIATES }}</td>
+                    <td>{{ r.ITEMS }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+
+    </div>
+
+{% endblock %}
+
+{% block extrascript %}
+    <link rel="stylesheet" type="text/css"
+          href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css"/>
+
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/s/bs-3.3.5/jqc-1.11.3,dt-1.10.10/datatables.min.js"></script>
+    <script type="text/javascript">
+
+        $('#dt').DataTable({
+            select: {
+                style: 'os'
+            },
+            "lengthMenu": [[25, 50, -1], [25, 50, "All"]]
+        });
+
+    </script>
+{% endblock %}

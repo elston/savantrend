@@ -1,0 +1,230 @@
+{% extends 'web/base.html' %}
+{% load staticfiles %}
+
+{% block menu_2 %} class="active" {% endblock %}
+
+{% block extracss %}
+<link rel="stylesheet" media="all" href="{% static 'tem/daterangepicker/daterangepicker.css' %}" />
+<link rel="stylesheet" media="all" href="{% static 'tem/selectmultiple/bootstrap.multiple.css' %}" />
+<link rel="stylesheet" media="all" href="{% static 'tem/bootstrap-switch/css/bootstrap-switch.min.css' %}" />
+<!-- <link rel="stylesheet" media="all" href="{% static 'tem/dynatable/jquery.dynatable.css' %}" /> -->
+
+<link href="{% static 'web/css/reports.css' %}" rel="stylesheet"/>
+<link href="{% static 'web/css/screen.css' %}" rel="stylesheet" media="screen"/>
+<link href="{% static 'web/css/print.css' %}" rel="stylesheet" media="print"/>
+{% endblock %}
+{% block extrascript %}
+<script type="text/javascript" src="{% static 'tem/js-cookie/js.cookie.js' %}"></script>
+
+<!-- <script type="text/javascript" src="{% static 'tem/jspdf/jspdf.min.js' %}"></script> -->
+<!-- <script type="text/javascript" src="{% static 'tem/jspdf/html2canvas.min.js' %}"></script> -->
+<!-- <script type="text/javascript" src="{% static 'tem/xepOnline/xepOnline.jqPlugin.js' %}"></script> -->
+
+<script type="text/javascript" src="{% static 'tem/Highcharts/js/highcharts.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/Highcharts/js/modules/exporting.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/Highcharts/js/modules/offline-exporting.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/Highcharts/js/modules/canvas-tools.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'tem/selectmultiple/bootstrap.multiselect.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/daterangepicker/moment.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/daterangepicker/daterangepicker.js' %}"></script>
+<script type="text/javascript" src="{% static 'tem/bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'web/js/common.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/commonsetup.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/reports.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/exports.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/scheduler.js' %}"></script>
+{% endblock %}
+
+{# Blocks with filter items to be used in panel #}
+
+{% block rmi_select_chain %}
+<li class="col-md-4">
+    <div class="col-xs-12 col-md-12 mpl0 pr0 padleft0">
+        <div class="col-xs-4 col-md-4 mp0 vcenter textRight">
+            SELECT {{ settings_raw.label1 }}
+        </div>
+        <div class="col-xs-8 col-md-8 pl0 textleft">
+            <select id="category1" name="chain" multiple="multiple" class="form-control reportfilteritem">
+                {% for chain in chains %}
+                    <option value="{{ chain.id }}" {% if chain.id|lower in initial.chain %}selected="selected"{% endif %}>{{ chain.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</li>
+{% endblock %}
+
+{% block rmi_select_site %}
+<li class="col-md-4">
+    <div class="col-xs-12 col-md-12  mpl0 pr0 padleft0">
+        <div class="col-xs-4 col-md-4 mp0 vcenter textRight">
+            SELECT {{ settings_raw.label2 }}
+        </div>
+        <div class="col-xs-8 col-md-8 pl0 textleft">
+            <select id="category2" name="site" multiple="multiple" class="form-control reportfilteritem"></select>
+        </div>
+    </div>
+</li>
+{% endblock %}
+
+{% block rmi_select_zone %}
+<li class="zone-select-li col-md-4">
+    <div class="col-xs-12 col-md-12 mpl0 pr0 padleft0">
+        <div class="col-xs-4 col-md-4 mp0 vcenter textRight">
+            SELECT {{ settings_raw.label3 }}
+        </div>
+        <div class="col-xs-8 col-md-8 pl0 catmul textleft">
+            <select id="category3" name="zone" multiple="multiple" class="form-control reportfilteritem"></select>
+        </div>
+    </div>
+</li>
+{% endblock %}
+
+{% block rmi_select_kpi %}
+<li class="kpi-select col-md-4">
+    <div class="col-xs-12 col-md-12 mpl0 pr0 padleft0">
+        <div class="col-xs-4 col-md-4 mp0 vcenter textRight">
+            SELECT {{ settings_raw.label6 }}
+        </div>
+        <div class="col-xs-8 col-md-8 pl0 textleft">
+            <select id="catKPI" multiple="multiple" name="kpi" class="form-control reportfilteritem">
+                {% for kpi in kpi_list %}
+                <option value="{{ kpi.0 }}" {% if kpi.0 in initial.kpi or not initial.kpi %}selected="selected"{% endif %}>{{ kpi.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</li>
+{% endblock %}
+
+{% block rmi_select_daterange %}
+<li class="col-md-4">
+    <div class="col-xs-12 col-md-12 mpl0 pr0 padleft0">
+        <div class="col-xs-4 col-md-4 mp0 vcenter textRight">
+            SELECT {{ settings_raw.label4 }}
+        </div>
+        <div class="col-xs-8 col-md-8 pl0 textleft">
+            <input id="category4" type="text" name="daterange" class="form-control reportfilteritem" style="display: inline; width: 185px" />
+        </div>
+    </div>
+</li>
+{% endblock %}
+
+{% block rmi_select_date %}
+<li class="col-md-4">
+    <div class="col-xs-12 col-md-12 mpl0 pr0 padleft0 seldatediv">
+        <div class="col-xs-4 col-md-4 mp0 vcenter textRight">
+            SELECT {{ settings_raw.label4 }}
+        </div>
+        <div class="col-xs-8 col-md-8 pl0 textleft">
+            <input id="seldate" type="text" name="date" class="form-control reportfilteritem" style="display: inline;"/>
+        </div>
+    </div>
+</li>
+{% endblock %}
+
+{% block rmi_select_hour %}
+<li class="col-md-4">
+    <div class="col-xs-12 col-md-12 mpl0 pr0 padleft0">
+        <div class="col-xs-4 col-md-4 mp0 vcenter textRight">
+            SELECT {{ settings_raw.label5 }}
+        </div>
+        <div class="col-xs-8 col-md-8 pl0 textleft">
+            <select id="catHours" multiple="multiple" name="hours" class="form-control reportfilteritem">
+                {% for hh in ''|center:24 %}
+                <option value="{{ forloop.counter0 }}" {% if forloop.counter0|lower in initial.hours or not initial.hours %}selected="selected"{% endif %}>{{ forloop.counter0|stringformat:"02d" }}:00 - {{ forloop.counter0|stringformat:"02d" }}:59</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</li>
+{% endblock %}
+
+
+{% block body_block %}
+
+{% block report_header %}
+{{ csrftoken }}
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2 class="reportheader">{% block reportname %}{{ report_name }}{% endblock %}</h2>
+    </div>
+</div>
+
+<div class="row reportfilter hidden">
+<nav class="navbar-default mbt-10 nav-hg">
+<div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menubar1">
+            FILTER
+            <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </button>
+    </div>
+
+<div class="collapse navbar-collapse navli mpl0" id="menubar1" align="center">
+    <ul class="nav navbar-nav navul list-inline mpl0">
+        {% block reportmenuitems %}{% endblock %}
+    </ul>
+    <div class="col-md-12 col-xs-12 showbtn row-centered">
+        {% block reportsubmitbtn %}
+        {% block reportbtnoffset %}<div class="col-md-2 col-xs-12">&nbsp;</div>{% endblock %}
+        <div class="col-md-2 col-xs-12">
+        <input type="button" class="btn btn-success btn-block xcol-centered" value="Show" id="btnshowData" />
+        </div>
+        {% endblock %}
+        {% block exportbtn %}
+        <div class="btn-group col-md-2 col-xs-12 xcol-centered">
+            <input type="button" class="btn btn-block dropdown-toggle nav-hg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="Export">
+
+            <div class="dropdown-menu" role="list">
+                <li><a href="#" onclick="exportReport('print')">PRINT</a></li>
+                {% for eformat in export_formats %}
+                <li><a href="#" onclick="exportReport('{{ eformat }}')">{{ eformat.upper }}</a></li>
+                {% endfor %}
+            </div>
+        </div>
+        {% endblock %}
+        {% block reportemailbtn %}
+        <div class="col-md-2 col-xs-12">
+        <input type="button" class="btn reportbtn btn-block xcol-centered" value="Send Email" id="btnEmailReport" />
+        </div>{% endblock %}
+        {% block reportschedulebtn %}
+        <div class="col-md-2 col-xs-12">
+        <input type="button" class="btn reportbtn btn-block xcol-centered" value="Schedule" id="btnScheduleReport" />
+        </div>{% endblock %}
+    </div>
+</div> <!-- menubar1 -->
+
+</div>
+</nav>
+</div>
+<div class="hidden" id="sitesdata">{{ sites }}</div>
+<div class="hidden" id="zonesdata">{{ zones }}</div>
+{% endblock %}
+
+<div class="row hidden inprogress">
+    <div class="col-md-12 col-xs-12 text-center">
+        <img src="{% static 'web/img/progress_large.gif' %}" class="inprogress">
+    </div>
+</div>
+{% block report %}
+<div class="reportdata hidden" data-name="{{ report_name }}" id="reportdata" data-url="{% url report_url %}" data-reportname="{{ report_id }}">
+<h3>Not implemented yet</h3>
+</div>
+{% endblock %}
+<div class="hidden" id="initial_elements" data-open="{{ open_report }}">{{ initial_json }}</div>
+<div class="hidden" id="settingsdata">{{ settings }}</div>
+<div class="hidden" id="settingsdefaults">{{ defaults }}</div>
+<script type="text/javascript">
+{% if export == 'pdf' %}
+$(function() {
+    makePDF();
+});
+{% endif %}
+</script>
+
+{% include 'scheduler/scheduler_formpopup.html' %}
+
+{% endblock %}

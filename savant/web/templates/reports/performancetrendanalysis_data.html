@@ -1,0 +1,72 @@
+{% load report_tags %}
+<br/>
+{% include 'reports/block_kpiindicator.html' %}
+{% if not export %}
+<br/>
+<div class="row for-site non-printable">
+    <input type="checkbox" id="shkpi" />
+    <label for="shkpi">KPI Identification Number</label>
+</div>
+{% endif %}
+<br />
+
+<br />
+<div class="row rep">
+    <div class="table-responsive performancetrendanalysis">
+        <table id="table1" class="table table-bordered">
+            <thead>
+                <th class="dynatable-head" height="30px">KPIs</th>
+                <th class="dynatable-head">Current</th>
+                <th class="dynatable-head">Past Day</th>
+                <th class="dynatable-head">% (PD)</th>
+                <th class="dynatable-head">Past Week</th>
+                <th class="dynatable-head">% (PW)</th>
+                <th class="dynatable-head">Past Month</th>
+                <th class="dynatable-head">% (PM)</th>
+                <th class="dynatable-head">Past Year</th>
+                <th class="dynatable-head">% (PY)</th>
+            </thead>
+            <tbody>
+            {% for kpiname, kpi in report.kpi.items %}
+            {% if kpi.enabled %}
+            <tr class="{{ kpi.css }}">
+                <td data-ind="{{ forloop.counter }}">{{ kpi.fullname }}</td>
+                <td class="current">{{ kpi.current_day|formatkpi:kpi.format }}</td>
+                <td class="pastday">{{ kpi.past_day|formatkpi:kpi.format }}</td>
+                <td class="-(Pd)">{{ kpi.past_day_perc|default:0 }}%</td>
+                <td class="pastweek">{{ kpi.past_week|formatkpi:kpi.format }}</td>
+                <td class="-(Pw)">{{ kpi.past_week_perc|default:0 }}%</td>
+                <td class="pastmonth">{{ kpi.past_month|formatkpi:kpi.format }}</td>
+                <td class="-(Pm)">{{ kpi.past_month_perc|default:0 }}%</td>
+                <td class="pastyear">{{ kpi.past_year|formatkpi:kpi.format }}</td>
+                <td class="-(Py)">{{ kpi.past_year_perc|default:0 }}%</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<br />
+<br />
+
+<div class="row dHChart">
+<div id="dvCghart" class="reportchart col-md-12 col-xs-12" data-style="height: 60%; width:100%"></div>
+</div>
+
+<div class="hidden" id="chartdata">{{ report.chartdata }}</div>
+<br />
+
+<div class="row abbrv for-site">
+<div class="col-md-4 col-sm-6 col-xs-12"><b>% (PD)</b> - % PAST DAY CHANGE</div>
+<div class="col-md-4 col-sm-6 col-xs-12"><b>% (PW)</b> - % PAST WEEK CHANGE</div>
+<div class="col-md-4 col-sm-6 col-xs-12"><b>% (PM)</b> - % PAST MONTH CHANGE</div>
+<div class="col-md-4 col-sm-6 col-xs-12"><b>% (PY)</b> - % PAST YEAR CHANGE</div>
+{% for kpiname, kpi in report.kpi.items %}
+{% if kpi.enabled %}
+<div class="col-md-4 col-sm-6 col-xs-12"><b><span class="abkpi hidden">{{ forloop.counter }}-</span>{{ kpi.fullname }}</b> - {{ kpi.description }}</div>
+{% endif %}
+{% endfor %}
+</div>

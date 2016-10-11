@@ -1,0 +1,42 @@
+{% extends base_template %}
+{% load staticfiles %}
+
+{% block extracss %}{{ block.super }}
+{% endblock %}
+{% block extrascript %}{{ block.super }}
+<script type="text/javascript" src="{% static 'tem/js-cookie/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/commonsetup.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/scheduler.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/paginationajax.js' %}"></script>
+{% endblock %}
+
+{% block menu_2 %}{% endblock %}
+{% block menu_3 %} class="active" {% endblock %}
+
+{% block body_block %}
+<ul class="nav nav-tabs container">
+  <li role="presentation" class="{% block replist_active %}{% endblock %}"><a href="{% url 'scheduler_reports' %}{{ otheruser }}">Reports List</a></li>
+  <li role="presentation" class="{% block stasks_active %}{% endblock %}"><a href="{% url 'scheduler_tasks' %}{{ otheruser }}">Scheduled Tasks List</a></li>
+</ul>
+{% block scheduler_body %}
+{{ csrftoken }}
+<div class="row inprogress">
+    <div class="col-md-12 col-xs-12 text-center">
+        <img src="{% static 'web/img/progress_large.gif' %}" class="inprogress">
+    </div>
+</div>
+<div class="container scheduler_main hidden border">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>Scheduler</h2>
+        </div>
+    </div>
+    <br />
+    <div class="row crow">
+        <div class="col-md-4">
+        </div>
+    </div>    
+</div>
+
+{% endblock %}
+{% endblock %}

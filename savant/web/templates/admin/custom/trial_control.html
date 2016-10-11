@@ -1,0 +1,80 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+{% load static %}
+
+{% block title %}Trial Control{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+<li><a href="../../../">Web</a></li>
+<li><a href="../../../clientmanagement/">Client Managements</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+    
+    <div id="content-main" class="border">
+    <h1>Trial control for user: {{ obj.username }}</h1>
+    
+
+        <form action="" class="form" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+            <div class="panel-body">  
+        <p>When you create new trial period it doesn't have any warnings yet.</p>
+
+        <p>
+            When you update trial period all exisiting warnings will be deleted automatically and new 
+            trial period will be applied. <br />So when you update trial period, actually you create new one.
+        </p>
+
+        <p>To clear existing trial check "Clear trial" checkbox.</p>
+        </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+        <fieldset class="xmodule xaligned xwide border">
+            
+            {% for field in f  %}
+                <div class="form-row {% if field.errors %}errors{% endif %} field-{{ field.name }}">
+                     {% if field.errors %}
+                        <ul class="errorlist">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <div class="col-sm-4">
+                        <label {% if field.required %}class="required"{% endif %} for="id_{{ field.name }}">{{ field.label }}:</label>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ field }}
+                        {% if field.help_text %}
+                            <br><span class="help">{{ field.help_text }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}        
+        </fieldset>
+        </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 col-md-offset-2">
+            <input type="submit" class="btn btn-block btn-success" value="Save" />
+            </div>
+        </div>
+
+
+        </form>
+    </div>
+
+{% endblock %}

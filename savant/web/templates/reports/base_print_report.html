@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} Savantrend {% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/main.css' %}"/>
+    <link href="{% static 'web/css/styles.css' %}" rel="stylesheet"/>
+    <link href="{% static 'web/css/reports.css' %}" rel="stylesheet"/>
+</head>
+
+<body style="background-color: white;">
+
+<div class='container-fluid'>
+    <div class='mainbody'>
+        {% block body_block %}
+<div class="reportdata" data-name="{{ report_name }}" id="reportdata" data-url="{% url report_url %}" data-reportname="{{ report_id }}">
+{% include report_data_tpl %}
+</div>
+        {% endblock %}
+    </div>
+</div>
+<div class="hidden" id="settingsdata">{{ settings }}</div>
+<script src="{% static 'web/js/jquery.min.js' %}"></script>
+<script src="{% static 'tem/jspdf/jspdf.min.js' %}"></script>
+<script src="{% static 'tem/jspdf/html2canvas.min.js' %}"></script>
+<script src="{% static 'tem/xepOnline/xepOnline.jqPlugin.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/reports_styles.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/js/exports.js' %}"></script>
+<script type="text/javascript">
+{% if export == 'pdf' %}
+$(function() {
+    makePDF();
+});
+{% endif %}
+</script>
+</body>
+</html>

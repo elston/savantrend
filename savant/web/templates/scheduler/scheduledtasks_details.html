@@ -1,0 +1,33 @@
+{% extends 'scheduler/scheduler_formpopup.html' %}
+
+{% block editwarn %}<div class="panel panel-warning schedule-setup">
+                    <div class="panel-body bg-warning">
+                        If you want to change scheduled report's settings - please delete it and create a new one from report's page. 
+                    </div>
+                </div>
+                {% endblock%}
+
+{% block scheduleid %}{{ item.id }}{% endblock %}
+{% block posturl %}{% url 'scheduler_task_edit' item.id %}{{otheruser}}{% endblock %}
+
+{% block emailto %}{{ item.email_to|default:'' }}{% endblock %}
+{% block emailcc %}{{ item.email_cc|default:'' }}{% endblock %}
+{% block emailbcc %}{{ item.email_bcc|default:'' }}{% endblock %}
+{% block emailsubject %}{{ item.email_subject|default:'' }}{% endblock %}
+{% block emailbody %}{{ item.email_body|default:'' }}{% endblock %}
+{% block rptformat_checked %}{% if eformat in item.get_format_list %}checked{% endif %}{% endblock %}
+
+{% block dayoffset %}{{ item.day_offset|default:'3' }}{% endblock %}
+{% block firstday %}{{ item.firstday|date:'m/d/Y' }}{% endblock %}
+{% block deliveryhour_clause %}{% if hourloop == item.delivery_hour %}selected{% endif %}{% endblock %}
+{% block deliveryhourmin_clause %}{% if hourminloop == item.delivery_hourmin %}selected{% endif %}{% endblock %}
+
+{% block dpt_checked_class %}{% if dptkey == item.delivery_period_type %}active{% endif %}{% endblock %}
+{% block dpt_checked %}{% if dptkey == item.delivery_period_type %}checked="checked"{% endif %}{% endblock %}
+{% block dpt_hidden %}{% if item.delivery_period_type != 'daily' %}hidden{% endif %}{% endblock %}
+
+{% block dailypt_checked_class %}{% if wd in item.get_allowed_weekdays %}active{% endif %}{% endblock %}
+{% block dailypt_checked %}{% if wd in item.get_allowed_weekdays %}checked="checked"{% endif %}{% endblock %}
+
+
+{% block deletebtn %}<button type="button" class="btn btn-danger emailreportscheduledelete schedule-setup"><span class="glyphicon glyphicon-remove"></span> Delete Scheduled Task</button>{% endblock %}

@@ -1,0 +1,55 @@
+{% load report_tags %}
+
+<br/>
+{% include 'reports/block_kpiindicator.html' %}
+{% if not export %}
+<br/>
+<div class="row for-site non-printable">
+    <input type="checkbox" id="shkpi" />
+    <label for="shkpi">KPI Identification Number</label>
+</div>
+{% endif %}
+<br />
+
+<div class="row rep site-table">
+    <div class="table-responsive">
+        <table id="table1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="dynatable-head" rowspan="1" data-dynatable-column="timeperiod" >TimePeriod</th>
+                    {% for kpiname, kpi in report.kpi.items %}
+                    {% if kpi.enabled %}
+                    <th class="dynatable-head" data-ind="{{ forloop.counter }}">{{ kpi.fullname }}</th>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for hr in report.hours %}
+                <tr>
+                    <td>{{ hr|stringformat:'02d' }}:00 - {{ hr|stringformat:'02d' }}:59</td>
+                    {% for kpiname, kpi in report.kpi.items %}
+                    {% if kpi.enabled %}
+                    <td class="{{ kpi.css }}">
+                        {{ report.data|getdefdict:hr|getkpi:kpi.id|formatkpi:kpi.format }}
+                    </td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br />
+<br />
+
+<div class="row dHChart">
+<div id="dvCghart" class="reportchart col-md-12 col-xs-12" data-style="height: 60%; width:100%"></div>
+</div>
+
+<div class="hidden" id="chartdata">{{ report.chartdata }}</div>
+<br />
+
+{% include 'reports/block_kpiabbrv.html' %}

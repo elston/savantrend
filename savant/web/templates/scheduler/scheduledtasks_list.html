@@ -1,0 +1,51 @@
+{% extends 'scheduler/scheduler_base.html' %}
+{% load staticfiles %}
+
+{% block stasks_active %}active{% endblock %}
+
+{% block scheduler_body %}
+<div class="row inprogress">
+    <div class="col-md-12 col-xs-12 text-center">
+        <img src="{% static 'web/img/progress_large.gif' %}" class="inprogress">
+    </div>
+</div>
+<div class="container scheduler_main hidden border" data-pgclass="scheduler_main">
+<h2>{% block list_title %}Scheduled Tasks List{% endblock %}</h2>
+{% if is_admin_view %}
+<span class="hidden pagination-parameter" data-name="userid" data-value="{{ curuser }}"></span>
+{% endif %}
+<h3>Filter</h3>
+<div class="row vbottom-parent">
+    <div class="col-md-1 text-center vbottom-cell">
+        <button class="btn btn-warning filter-reset">Reset</button>
+    </div>
+    {% for fname, fld, fvals in filters %}
+    <div class="col-md-3 text-center vbottom-cell filter-item">
+        <label>{{ fname.capitalize }}:</label><br/>
+        <select class="list-filter" name="{{ fld }}">
+            <option value="-">- All -</option>
+            {% for vv in fvals %}
+            <option value="{{ vv }}">{{ vv }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% endfor %}
+    <div class="col-md-3 text-center vbottom-cell">&nbsp;</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 scheduler_main paginated_content pagination-sortfield"
+        data-pgclass="scheduler_main"
+        data-sortfield="created_at"
+        data-asc="0">
+        {% block list_body_initial %}
+        <div class="row text-center">
+        <img src="{% static 'web/img/progress_large.gif' %}" class="inprogress">
+        </div>
+        {% endblock %}        
+    </div>
+</div>
+
+</div>
+{{ csrftoken }}
+{% endblock %}

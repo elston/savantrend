@@ -1,0 +1,61 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+{% load static %}
+
+{% block title %}Enable Integration{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{% static 'tem/selectmultiple/bootstrap.multiselect.js' %}"></script>
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "tem/selectmultiple/bootstrap.multiple.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "web/css/select2.min.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "web/css/main.css" %}" />
+{% endblock %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+<li><a href="../../../">Web</a></li>
+<li><a href="../../../user/">Clients</a></li>
+</ul>
+{% endblock %}
+
+
+{% block content %}
+
+<div id="content-main" class="webadmin table-bordered">
+<h1>Enable Integration for {{ obj.username }}</h1>
+
+
+    <form action="" method="post">
+    {% csrf_token %}
+    <fieldset class="module aligned wide">
+        <div class="xform-row field-{{ form.enabled_kpis.name }}">
+            <div>
+                <label class="required" for="id_{{ form.enabled_kpis.name }}" style="font-size: 14px;">{{ form.enabled_kpis.label }}:</label>
+                {{ form.enabled_kpis }}
+            </div>
+        </div>
+        </fieldset>
+        <div class="xsubmit-row">
+            <input type="submit" class="btn btn-success" value="Save" />
+        </div>
+    </form>
+    <br/>
+</div>
+
+<script type="text/javascript">
+
+    $('#id_enabled_kpis').multiselect({
+        includeSelectAllOption: true,
+    });
+
+    $('#id_enabled_reports').multiselect({
+        includeSelectAllOption: true,
+    });
+</script>
+
+{% endblock %}

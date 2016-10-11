@@ -1,0 +1,244 @@
+DOCUMENTATION.
+
+
+USAGE:
+
+1) Create logs directory and set to settings.json
+2) Create backup directoty and set to settings.json
+3) Create csv directory and set to settings.json
+4) Set database name to settings.json
+5) Set database user to settings.json
+6) Set database password to settings.json
+
+settings.json example:
+
+{
+    "CsvFolder": "C:/scheduler-test/csv",
+    "BackupFolder": "C:/scheduler-test/backups",
+    "LogsFolder": "C:/scheduler-test/logs",
+    "DbName": "uaescheduler",
+    "DbUser": "uuaescheduler",
+    "DbPassword": "111",
+    "TimeInterval": 1
+}
+
+You need to point ABSOLUTE paths exactly like in Linux with these slash "/" and not "\".
+TimeInterval in minutes - note it is integer, not string.
+TimeInterval is in minutes.
+
+
+
+CSV FOLDER.
+
+Program scan files with following names in csv folder: 
+
+data_<clientid>_anything.csv
+
+Example: 
+
+data_100_2010-08-11_11:00.csv  (where 100 is client id)
+
+Don't forget to have files with that names, files with other names won't be processed.
+
+
+
+DATABASE.
+
+You need to have exactly the same names of columns in database, like I got from your DB 
+(if you implement database somewhere else).
+Case-sensitivity matters.
+
+id
+day
+datetime
+visitors_in
+visitors_out
+occupancy
+sales
+transactions
+associates
+items
+zone_name
+site_name
+chain_name
+chain_id
+site_id
+zone_id
+client_id
+
+Actually it is just a note, table creates automatically by Django.
+
+RUNNING THE PROGRAM.
+
+It doesn't matter where you put executable file, settings.json should be placed in the same folder.
+I even run it from USB drive (performance almost the same).
+
+Anyway better use the same disk where postgres running, if postgres on C:, place scheduler on C:
+
+On windows go to cmd:
+
+1) Testing (all info showes on screen)
+
+Scan once:
+
+>scheduler.exe --scan --debug
+
+Scan with interval until Ctrl-C:
+
+>scheduler.exe --scan --debug --forever
+
+2) Production (all info goes to log files)
+
+Scan once:
+
+>scheduler.exe --scan
+
+Scan with interval until Ctrl-C:
+
+>scheduler.exe --scan --forever
+
+The order of arguments doesn't matter, they can be placed in any order.
+
+
+
+SCANNING.
+
+When scheduler scans csv file and relations will be added automatically,
+if they are not exist.
+
+The relations:
+
+web_chain
+web_site
+web_zone
+web_user
+web_user_chain
+web_user_site
+web_user_zone
+
+All csv files moving to backups after scanning the folder.
+
+
+
+QUICK START.
+
+All you need for quick start.
+
+1) csv folder
+2) backup folder
+3) logs folder
+4) Postgres database with all Django models installed.
+5) Client - for which you upload csv.
+6) csv file with correct name for client
+7) settings.json
+
+
+
+BENCHMARK.
+
+Benchmark was made with your csv file that contains 295 000 rows.
+On my working Linux machine I have Ubuntu 14 64 bit, golang 1.4 and postgres 9.4
+With relations I got 22 seconds.
+
+
+
+
+MULTI-CORE.
+
+Starting from 1.5 GoLang programs by default use all availables cores of computer.
+(earlier it was specially set)
+So, the program can run on maximum performance.
+
+If you get 16 core server with 16-32 Gb RAM and tuned PostgreSQL - you'll see other numbers.
+
+
+
+
+INSTALLATION OF GOLANG ON WINDOWS.
+
+Besides my instruction, there is a good article about golang installation with screens:
+
+http://www.wadewegner.com/2014/12/easy-go-programming-setup-for-windows/
+
+For cross compiltaion you need to install golang 1.5.
+Golang 1.4 is hard to cross compile.
+
+1) Download newest ".msi" golang 1.5
+
+https://golang.org/dl/
+
+download and run it.
+Installer should place c:\Go\bin to your PATH environment variable.
+You can check it on 
+Control panel -> System -> Advanced -> Environment variables
+If not, set it manually.
+
+2) You need to set new environment variable called GOPATH.
+
+Create directories, for example c:\GoPackages and c:\GoPackages\src
+Then set environment variable GOPATH=c:\GoPackages
+
+When you automatically download third-party packages - they will be placed to this directory.
+
+3) scheduler has one third party dependency, library for connecting to postgre.
+
+The package is: github.com/lib/pq
+To install it run command in cmd: 
+
+>go get github.com/lib/pq
+
+But I was setting golang on windows for the first time, and this command didn't work.
+I installed git and as far as I remember  it worked after that.
+Just google it if you have any problems "how to do go get on windows"
+
+Git should be added to PATH, after that Command Prompt should be restart.
+
+When you are done with these steps, everything should work.
+Open cmd in the project folder and run 
+
+> go build
+
+If all goes well, in the same folder you'll get executable.
+
+
+
+
+CROSSCOMPILATION.
+
+There are just 2 environment variables: GOOS and GOARCH
+GOOS is a platform windows/linux/mac/et.c
+GOARCH is processor 32 bit / 64 bit
+
+GOOS windows  for windows
+GOOS linux    for linux 
+GOOS darwin   for mac
+
+GOARCH 386    for 32 bit
+GOARCH amd64  for 64 bit
+
+Examples in command prompt:
+
+1) compile for windows 32
+
+>SET GOOS=windows
+>SET GOARCH=386
+>go build  
+
+2) compile for windows 64
+(initially when you are on windows 64 and hasn't set variables yet, just run "go build")
+
+>SET GOOS=windows
+>SET GOARCH=amd64
+>go build  
+
+3) compile for linux 32
+
+>SET GOOS=linux
+>SET GOARCH=386
+>go build  
+
+4) compile for linux 64
+
+>SET GOOS=linux
+>SET GOARCH=amd64
+>go build  

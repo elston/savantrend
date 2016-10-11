@@ -1,0 +1,36 @@
+{% extends 'reports/pdf/base_pdf.html' %}
+{% load report_tags %}
+
+{% block addstyle %}
+{% endblock %}
+
+{% block content %}
+
+<table id="table1" class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="dynatable-head" rowspan="1" data-dynatable-column="timeperiod" >TimePeriod</th>
+            {% for kpiname, kpi in report.kpi.items %}
+            {% if kpi.enabled %}
+            <th class="dynatable-head" data-ind="{{ forloop.counter }}"><span class="badge kind indkpi">{{ forloop.counter }}</span>{{ kpi.fullname }}</th>
+            {% endif %}
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for hr in report.hours %}
+        <tr>
+            <td>{{ hr|stringformat:'02d' }}:00 - {{ hr|stringformat:'02d' }}:59</td>
+            {% for kpiname, kpi in report.kpi.items %}
+            {% if kpi.enabled %}
+            <td class="{{ kpi.css }}">
+                {{ report.data|getdefdict:hr|getkpi:kpi.id|formatkpi:kpi.format }}
+            </td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'reports/base_reports.html' %}
+{% load staticfiles %}
+
+{% block extracss %}{{ block.super }}
+<link rel="stylesheet" media="all" href="{% static 'web/css/calendar.css' %}" />
+{% endblock %}
+
+{% block reportmenuitems %}
+{% block rmi_select_chain %}{{ block.super }}{% endblock %}
+{% block rmi_select_site %}{{ block.super }}{% endblock %}
+{% block rmi_select_zone %}{{ block.super }}{% endblock %}
+{% block rmi_select_date %}{{ block.super }}{% endblock %}
+{% block rmi_select_kpi %}{{ block.super }}{% endblock %}
+{% endblock %}

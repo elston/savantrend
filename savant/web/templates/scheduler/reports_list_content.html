@@ -1,0 +1,45 @@
+{% extends 'web/list.html' %}
+{% load booltags %}
+
+{% block listcontent %}
+
+<table class="table table-condensed table-hover text-center text-middle">
+<tr>
+    {% block table_headers %}
+    <th class="text-left"><div><span>&nbsp;</span></div></th>
+    <th data-sort='name' class="text-left sortable"><div><span>Name</span></div></th>
+    <th class="text-center"><div><span>Calendar Date Selected</span></div></th>
+    <th data-sort="created_at" class="text-center sortable"><div><span>Date of Report Downloading</span></div></th>
+    <th class="text-center"><div><span>Report Format Selected</span></div></th>
+    <th data-sort="is_email" class="sortable"><div><span>Is Email?</span></div></th>
+    <th data-sort="is_manual" class="sortable"><div><span>Scheduled?</span></div></th>
+    <th data-sort="email" class="sortable"><div><span>Email Sent to</span></div></th>
+    {% endblock %}
+</tr>
+{% for i in items %}
+<tr data-id="{{ i.id }}">
+    {% block table_items %}
+    <td class="text-left">
+    {% if not is_admin_view %}
+    <button class="btn btn-default btn-block open-report" data-urlparams='{{ i.parameters }}'>Open Report</button>
+    {% else %}
+    &nbsp;
+    {% endif %}
+    </td>
+    <td class="text-left">{{ i.name }}</td>
+    <td class="text-center">{{ i.calendar_date_selected }}</td>
+    <td class="text-center">{{ i.created_at|date:'m/d/Y' }}</td>
+    <td class="text-center">
+        {% if i.is_csv %}<a href="{{ MEDIA_URL }}reports/{{ i.report_relfilepath }}.csv" class="label label-primary">CSV</a>{% endif %}
+        {% if i.is_xls %}<a href="{{ MEDIA_URL }}reports/{{ i.report_relfilepath }}.xlsx" class="label label-primary">XLS</a>{% endif %}
+        {% if i.is_pdf %}<a href="{{ MEDIA_URL }}reports/{{ i.report_relfilepath }}.pdf" class="label label-primary">PDF</a>{% endif %}
+    </td>
+    <td class="text-center">{{ i.is_email|bool2html }}</td>
+    <td class="text-center">{{ i.is_scheduled|bool2html }}</td>
+    <td class="text-center">{{ i.email.recipients }}</td>
+    {% endblock %}
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

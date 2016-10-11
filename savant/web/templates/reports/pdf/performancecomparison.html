@@ -1,0 +1,53 @@
+{% extends 'reports/pdf/base_pdf.html' %}
+{% load report_tags %}
+
+{% block addstyle %}
+{% endblock %}
+
+{% block kpisummary %}
+{% if not report.is_site %}
+<div class="row for-zone" style="text-align: center; vertical-align: central" id="dvHelper">
+    <div class="col-lg-offset-5 col-sm-12 col-md-2 col-xs-10 col-xs-offset-1 footfall bdr" style="color: black; height: 100px; border-radius: 4px; padding: 10px">
+        TOTAL VISITORS FOR SELECTED ZONE(S)
+        <br />
+        <span id="total1" style="font-size: 20px; font-weight: bold;">{{ report.kpi.FOOTFALL.sum|formatkpi:settings_raw.kpiformatFOOTFALL }}</span>
+    </div>
+</div>
+{% else %}
+{{ block.super }}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% for site in report.iterdomains %}
+<h3>{{ site.chain__name }} :: {{ site.name }}</h3>
+<table id="table1" class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="dynatable-head" rowspan="1" data-dynatable-column="timeperiod" >TimePeriod</th>
+            {% for kpiname, kpi in report.kpi.items %}
+            {% if kpi.enabled %}
+            <th class="dynatable-head" data-ind="{{ forloop.counter }}"><span class="badge dkind indkpi">{{ forloop.counter }}</span>{{ kpi.fullname }}</th>
+            {% endif %}
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for hr in report.hours %}
+        <tr>
+            <td>{{ hr|stringformat:'02d' }}:00 - {{ hr|stringformat:'02d' }}:59</td>
+            {% for kpiname, kpi in report.kpi.items %}
+            {% if kpi.enabled %}
+            <td class="{{ kpi.css }}">
+                {{ report.data|getdefdict:hr|getdefdict:site.id|getkpi:kpi.id|formatkpi:kpi.format }}
+            </td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
+{% endblock %}
