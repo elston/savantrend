@@ -91,6 +91,11 @@ def add_user(request):
             subuser.chain.add(*list(data['chain']))
             subuser.site.add(*list(data['site']))
             subuser.zone.add(*list(data['zone']))
+            # ...
+            subuser.allow_settings = data['allow_settings']
+            subuser.allow_subusers = data['allow_subusers']            
+            subuser.enabled_kpis.add(*list(data['enabled_kpis']))
+            subuser.enabled_reports = data['enabled_reports']
             subuser.save()
 
             return HttpResponseRedirect(reverse('manage_access'))

@@ -85,3 +85,23 @@ project.info
 
 *.gz
 celerybeat-schedule
+
+
+
+
+
+
+
+*.env/*
+*.vagrant/*
+*.logs/*
+Vagrantfile
+*.sh
+*.sqlite3
+*.txt
+*.gitignore
+
+backups/*
+csv/*
+logs/*
+tmp/*

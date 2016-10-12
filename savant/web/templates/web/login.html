@@ -31,6 +31,11 @@
             <form class="form-signin" id="login_form" method="post" action="/login/">
             {% csrf_token %}
               <h4 class="form-signin-heading">Please sign in</h4>
+
+              <p class="lead text-center">
+                  <img src="{% static 'web/img/logo_default.png' %}" class="nav-img img-rounded" id="pagebrandimg">
+              </p>              
+             
               <label for="inputEmail" class="sr-only">username</label>
               <input class="form-control" name="username" placeholder="User Name"  required autofocus>
               <label for="inputPassword" class="sr-only">Password</label>

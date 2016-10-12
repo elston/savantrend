@@ -1,7 +1,7 @@
 {
-    "CsvFolder": "/opt/demo01/csv",  
-    "BackupFolder": "/opt/demo01/backups",
-    "LogsFolder": "/opt/demo01/logs", 
+    "CsvFolder": "/vagrant/scheduler/bin/csv",  
+    "BackupFolder": "/vagrant/scheduler/bin/backups",
+    "LogsFolder": "/vagrant/scheduler/bin/logs", 
     "DbName": "savant",
     "DbUser": "savant",
     "DbPassword": "AWCvTqs425MM671",
