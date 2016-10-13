@@ -19,13 +19,17 @@
 {% endblock %}
 {% endblock %}
 
+
 {% block breadcrumbs %}
+{% if request.user.is_superadmin%}
 <ul class="breadcrumb">
 <li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
 <li><a href="../../">Web</a></li>
-<li><a href="../../user/">Clients</a></li>
+<li><a href="/admin/web/user/">Clients </a></li>
 </ul>
+{% endif %}
 {% endblock %}
+
 
 {% block content %}
 {% block body_block %}

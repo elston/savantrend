@@ -52,6 +52,7 @@ class User(AbstractBaseUser):
     allow_settings = models.BooleanField(default=False, verbose_name='Allow Customize Access')
     allow_subusers = models.BooleanField(default=False, verbose_name='Allow Subusers As Client')
     is_admin = models.BooleanField(default=False, verbose_name='admin')
+    is_superadmin = models.BooleanField(default=False, verbose_name='superadmin')    
     parent = models.ForeignKey(
         'self', null=True, blank=True, related_name='children',
         on_delete=models.CASCADE)
