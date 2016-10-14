@@ -150,7 +150,8 @@ class BaseReportView(TemplateView):
         self.KPI_NAMES_REVERSED = dict((self.kpiname(k), k) for k in self.KPI_LIST)
         self.KPI_FORMATS = dict((kpi, self.settings['kpiformat%s' % kpi.replace('%', '')]) for kpi in self.KPI_LIST)
         context['kpi_list'] = []
-        for kpiname, kpidn in list(self.request.user.get_kpis().values_list('name', 'displayname')):
+        # for kpiname, kpidn in list(self.request.user.get_kpis().values_list('name', 'displayname')):
+        for kpiname, kpidn in list(self.request.user.enabled_kpis.all().values_list('name', 'displayname')):            
             context['kpi_list'].append((kpiname, self.kpiname(kpiname)))
 
         reportid = self.get_reportid()

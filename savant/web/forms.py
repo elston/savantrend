@@ -92,7 +92,7 @@ class KPIFeaturesForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # print(self.fields['enabled_kpis'].choices)
-        self.fields['enabled_kpis'].queryset = Kpi.basic_kpis().exclude(name='FOOTFALL')
+        # self.fields['enabled_kpis'].queryset = Kpi.basic_kpis().exclude(name='FOOTFALL')
 
 
 class ReportsEnabledForm(forms.ModelForm):
