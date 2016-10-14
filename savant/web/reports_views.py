@@ -683,9 +683,12 @@ class BaseReportView(TemplateView):
             formats = self.request.POST.getlist('formats[]')
             reportfiles = []
             file_name = "%s-%s" % (context['report_id'], context['current_time'])
+            emaildateformat = self.request.POST.get('emaildateformat') or '%Y-%m-%d'
+            emaildateformat = 'Created at {}'.format(emaildateformat)
             subject = self.request.POST.get('emailsubject') or 'Report'
             subject = replace_date_placeholders(subject, datetime.datetime.now())
             body = self.request.POST.get('emailbody') or 'Report'
+            body = '{}. {}'.format(body,emaildateformat)  
             body = replace_date_placeholders(body, datetime.datetime.now())
             emailer = models.Emailer(type=models.Emailer.TEXT,
                                      subject=subject,
