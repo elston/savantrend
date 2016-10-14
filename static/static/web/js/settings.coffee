@@ -56,13 +56,20 @@ $ ->
             'performancecomparison_footer', 'dailyretailtrendanalysis_footer',
             'executivesummary_footer', 'hourlyperformance_footer',
             'performancecalendar_footer', 'performancetrendanalysis_footer',
-            # Date format field
+            # Header Date format field
             'performancecomparison_date_format',
             'dailyretailtrendanalysis_date_format',
             'executivesummary_date_format',
             'hourlyperformance_date_format',
             'performancecalendar_date_format',
             'performancetrendanalysis_date_format',
+            # Footer Date format field
+            'performancecomparison_footer_date_format',
+            'dailyretailtrendanalysis_footer_date_format',
+            'executivesummary_footer_date_format',
+            'hourlyperformance_footer_date_format',
+            'performancecalendar_footer_date_format',
+            'performancetrendanalysis_footer_date_format',            
         ],
         'fonts_used': ['font_reportheader_type', 'font_filters_type',
                        'font_summary_type', 'font_tblheaders_type',

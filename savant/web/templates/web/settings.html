@@ -386,7 +386,8 @@
                         <input type="text" id="{{ report.reportid }}_header" data-for="report" placeholder="Enter text" class="form-control" />
                         <label for="{{ report.reportid }}_footer">Report Footer</label>
                         <input type="text" id="{{ report.reportid }}_footer" data-for="report" placeholder="Enter text" class="form-control" />
-                        <label for="{{ report.reportid }}_date_format">Date Format</label>
+
+                        <label for="{{ report.reportid }}_date_format">Header Date Format</label>
                         <div id='{{ report.reportid }}_date_format_group'>
                         <input type="text" id="{{ report.reportid }}_date_format" data-for="report" placeholder="Enter format" class="form-control" />
                         <span
@@ -398,6 +399,20 @@
                             >
                         </span>
                         </div>
+
+                        <label for="{{ report.reportid }}_footer_date_format">Footer Date Format</label>
+                        <div id='{{ report.reportid }}_footer_date_format_group'>
+                        <input type="text" id="{{ report.reportid }}_footer_date_format" data-for="report" placeholder="Enter format" class="form-control" />
+                        <span
+                            type='text'
+                            class="help-block"
+                            data-date-format-example-for='{{ report.reportid }}_footer_date_format'
+                            data-date-format-example-error-class='has-error'
+                            data-date-format-example-error-target='{{ report.reportid }}_footer_date_format_group'
+                            >
+                        </span>
+                        </div>                        
+
                         {% include 'reports/strftime_info.html' with id=report.reportid %}
                     </fieldset>
                     </div>

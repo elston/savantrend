@@ -44,6 +44,13 @@ SETTINGS_DEFAULTS = OrderedDict([
     ('hourlyperformance_date_format', ''),
     ('performancecalendar_date_format', ''),
     ('performancetrendanalysis_date_format', ''),
+    # report footers date format
+    ('performancecomparison_footer_date_format', ''),
+    ('dailyretailtrendanalysis_footer_date_format', ''),
+    ('executivesummary_footer_date_format', ''),
+    ('hourlyperformance_footer_date_format', ''),
+    ('performancecalendar_footer_date_format', ''),
+    ('performancetrendanalysis_footer_date_format', ''),    
     # site name
     ('sitename', 'Savantrend'),
     # background color
