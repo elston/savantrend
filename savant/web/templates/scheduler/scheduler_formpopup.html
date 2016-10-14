@@ -58,15 +58,8 @@
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <input type="text" class="form-control" id="emailsubject" placeholder="" value="{% block emailsubject %}{{ report_name }} Report from %Y/%m/%d %H:%M{% endblock %}">
+                                <input type="text" class="form-control" id="emailsubject" placeholder="" value="{% block emailsubject %}{{ report_name }} {% endblock %}">
                             </div>
-                            <span
-                                type='text'
-                                class="help-block"
-                                data-date-format-example-for='emailsubject'
-                                data-date-format-example-error-class='has-error'
-                                data-date-format-example-error-target='emailSubjectGroup'>
-                            </span>
                         </div>
                     </div>
                     <div id='emailBodyGroup' class="form-group">
@@ -74,17 +67,27 @@
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <textarea class="form-control" id="emailbody" rows="5">{% block emailbody %}Here is the {{ report_name }} Report, created at %Y/%m/%d{% endblock %}</textarea>
+                                <textarea class="form-control" id="emailbody" rows="5">{% block emailbody %}Here is the {{ report_name }} Report {% endblock %}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='emailSubjectGroup' class="form-group">
+                        <label for="emailsubject" class="col-sm-2 control-label">Date Format:</label>
+                        <div class="col-sm-10" id="emaildateformat_group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <input type="text" id="emaildateformat" data-for="report" placeholder="Enter format" value="%Y-%m-%d" class="form-control" />
                             </div>
                             <span
                                 type='text'
                                 class="help-block"
-                                data-date-format-example-for='emailbody'
+                                data-date-format-example-for='emaildateformat'
                                 data-date-format-example-error-class='has-error'
-                                data-date-format-example-error-target='emailBodyGroup'>
-                            </span>
+                                data-date-format-example-error-target='emaildateformat_group'
+                                >
+                            </span>                            
                         </div>
-                    </div>
+                    </div>                    
                     {% include 'reports/strftime_info.html' %}
                 </div>
                 <div class="row emailinfo">

@@ -432,6 +432,7 @@
       params['emailbcc'] = $('#emailbcc').val();
       params['emailsubject'] = $('#emailsubject').val();
       params['emailbody'] = $('#emailbody').val();
+      params['emaildateformat'] = $('#emaildateformat').val();      
       params['formats'] = [];
       $('.emailexport_type:checked', modal).each(function() {
         params['formats'].push($(this).data('format'));
