@@ -45,7 +45,7 @@ class MyUserAdmin(PopupMixin, UserAdmin):
                     'skype',
                     'is_active',
                     'is_admin',
-                    'is_superadmin',
+                    # 'is_superadmin',
                     'parent',
                     'logo')}
         ),

@@ -21,7 +21,7 @@
 
 
 {% block breadcrumbs %}
-{% if request.user.is_superadmin%}
+{% if request.user.is_admin%}
 <ul class="breadcrumb">
 <li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
 <li><a href="../../">Web</a></li>
