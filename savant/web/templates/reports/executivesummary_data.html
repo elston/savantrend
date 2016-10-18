@@ -16,14 +16,16 @@
         <br />
     </div>
         <table class="table table-bordered executive" id="table1"><tbody>
+{% for group in report.kpi_groups %}
 <tr>
-{% for kpiname, kpi in report.kpi.items %}
+{% for kpiname, kpi in group %}
 {% if kpi.enabled %}
 {% if not forloop.first and forloop.counter0|divisibleby:4 %}</tr><tr>{% endif %}
 <td class="odd {{ kpi.css }}"  data-ind="{{ forloop.counter }}"><br class="br1"/>{{ kpi.fullname }}<br/><span class="mval">{{ kpi.sum|formatkpi:kpi.format }}</span></td>
 {% endif %}
 {% endfor %}
 </tr>
+{% endfor %}
         </tbody></table>
     </div>
 </div>

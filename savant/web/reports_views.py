@@ -1043,7 +1043,8 @@ class ExecutiveSummaryReportView(BaseReportView):
         kpi_list = None
         is_dahsboard = 'dashboard' in self.request.GET
         if is_dahsboard:
-            kpi_list = self.request.user.get_kpis().values_list('name', flat=True)
+            # kpi_list = self.request.user.get_kpis().values_list('name', flat=True)
+            kpi_list = self.request.user.enabled_kpis.all().values_list('name', flat=True)            
             self.request_params = self.request_params.copy()
             today = datetime.date.today().strftime('%m/%d/%Y')
             self.request_params['daterange'] = '%s - %s' % (today, today)
@@ -1058,6 +1059,13 @@ class ExecutiveSummaryReportView(BaseReportView):
                 value = row.get(kpi['id']) or 0
                 kpi_sum[kname]['sum'] += value
         retval['kpi'] = self.calc_kpis(kpi_sum, reduce=False)
+
+        items = [(kpiname, kpi) for kpiname, kpi in retval['kpi'].items() if kpi['enabled']]
+        i,groups = 4,[]
+        for n in range(0,(len(items)//i)+1):
+            groups.append(items[i*n:i+(i*n)])
+        retval['kpi_groups'] = groups
+        
         retval['kpi_len'] = sum(1 for k in kpi_sum if kpi_sum[k]['enabled'])
         retval['csvdata'].append([kpi_sum[k]['fullname'] for k in kpi_sum if kpi_sum[k]['enabled']])
         retval['csvdata'].append([kpi_sum[k]['sum'] for k in kpi_sum if kpi_sum[k]['enabled']])
