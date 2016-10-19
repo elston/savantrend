@@ -309,8 +309,8 @@ class BaseReportView(TemplateView):
 
     def get_kpis_initial(self, only=None):
         kpis = self.request_params.getlist('kpi[]') or ['FOOTFALL']
-        if 'FOOTFALL' not in kpis:
-            kpis.append('FOOTFALL')
+        # if 'FOOTFALL' not in kpis:
+        #     kpis.append('FOOTFALL')
         if only:
             kpis = only
         kpi_cnt = 0
