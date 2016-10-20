@@ -684,8 +684,9 @@ class BaseReportView(TemplateView):
             reportfiles = []
             file_name = "%s-%s" % (context['report_id'], context['current_time'])
             emaildateformat = self.request.POST.get('emaildateformat') or '%Y-%m-%d'
-            emaildateformat = 'Created at {}'.format(emaildateformat)
+            # emaildateformat = 'Created at {}'.format(emaildateformat)
             subject = self.request.POST.get('emailsubject') or 'Report'
+            subject = '{}. {}'.format(subject,emaildateformat)            
             subject = replace_date_placeholders(subject, datetime.datetime.now())
             body = self.request.POST.get('emailbody') or 'Report'
             body = '{}. {}'.format(body,emaildateformat)  
