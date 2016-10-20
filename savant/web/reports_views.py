@@ -1079,11 +1079,7 @@ class ExecutiveSummaryReportView(BaseReportView):
                 kpi_sum[kname]['sum'] += value
         retval['kpi'] = self.calc_kpis(kpi_sum, reduce=False)
 
-        items = [(kpiname, kpi) for kpiname, kpi in retval['kpi'].items() if kpi['enabled']]
-        i,groups = 4,[]
-        for n in range(0,(len(items)//i)+1):
-            groups.append(items[i*n:i+(i*n)])
-        retval['kpi_groups'] = groups
+        retval['kpi_items'] = [(kpiname, kpi) for kpiname, kpi in retval['kpi'].items() if kpi['enabled']]
         
         retval['kpi_len'] = sum(1 for k in kpi_sum if kpi_sum[k]['enabled'])
         retval['csvdata'].append([kpi_sum[k]['fullname'] for k in kpi_sum if kpi_sum[k]['enabled']])
