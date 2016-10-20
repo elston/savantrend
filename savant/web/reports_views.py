@@ -181,6 +181,17 @@ class BaseReportView(TemplateView):
             )
         else:
             context['current_time_report'] = ''
+
+        # ..._footer_date_format
+        report_footer_date_format = self.settings.get(reportid + '_footer_date_format', '').strip()
+        if report_footer_date_format:
+            context['current_time_report_footer'] = replace_date_placeholders(
+                report_footer_date_format,
+                datetime.datetime.strptime(current_time, '%m-%d-%Y-%H-%M')
+            )
+        else:
+            context['current_time_report_footer'] = ''
+
         context['initial'] = {}
         for pr in REPORT_FILTERS:
             if pr.endswith('[]'):
@@ -533,8 +544,15 @@ class BaseReportView(TemplateView):
             # 'orientation': 'Portrait',
             'quiet': ''
         }
+
         if context['reportfooter']:
             options['footer-center'] = context['reportfooter']
+            
+        if context['current_time_report_footer']:
+            options['footer-center'] = '{} {}'.format(
+                context['reportfooter'],
+                context['current_time_report_footer'])
+
         config = None
         config = pdfkit.configuration(wkhtmltopdf=settings.WKHTMLTOPDF_BIN)
         pdffile = pdfkit.from_string(html, False, options=options, css=cssfiles, configuration=config)
