@@ -150,8 +150,8 @@ class BaseReportView(TemplateView):
         self.KPI_NAMES_REVERSED = dict((self.kpiname(k), k) for k in self.KPI_LIST)
         self.KPI_FORMATS = dict((kpi, self.settings['kpiformat%s' % kpi.replace('%', '')]) for kpi in self.KPI_LIST)
         context['kpi_list'] = []
-        # for kpiname, kpidn in list(self.request.user.get_kpis().values_list('name', 'displayname')):
-        for kpiname, kpidn in list(self.request.user.enabled_kpis.all().values_list('name', 'displayname')):            
+        for kpiname, kpidn in list(self.request.user.get_kpis().values_list('name', 'displayname')):
+        # for kpiname, kpidn in list(self.request.user.enabled_kpis.all().values_list('name', 'displayname')):            
             context['kpi_list'].append((kpiname, self.kpiname(kpiname)))
 
         reportid = self.get_reportid()
@@ -1062,8 +1062,8 @@ class ExecutiveSummaryReportView(BaseReportView):
         kpi_list = None
         is_dahsboard = 'dashboard' in self.request.GET
         if is_dahsboard:
-            # kpi_list = self.request.user.get_kpis().values_list('name', flat=True)
-            kpi_list = self.request.user.enabled_kpis.all().values_list('name', flat=True)            
+            kpi_list = self.request.user.get_kpis().values_list('name', flat=True)
+            # kpi_list = self.request.user.enabled_kpis.all().values_list('name', flat=True)            
             self.request_params = self.request_params.copy()
             today = datetime.date.today().strftime('%m/%d/%Y')
             self.request_params['daterange'] = '%s - %s' % (today, today)

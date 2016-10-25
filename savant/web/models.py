@@ -227,6 +227,7 @@ class User(AbstractBaseUser):
         kpis = Kpi.objects.filter(name__in=allowed_names)
         return kpis
 
+
     @staticmethod
     def get_admin_urls():
         sp = []
